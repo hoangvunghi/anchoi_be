@@ -29,21 +29,49 @@ return [
     */
 
     'disks' => [
+        'image' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'), // Thay đổi đường dẫn root
+            'url' => 'http://127.0.0.1:8000/storage', // Thay đổi URL
+            'visibility' => 'public', // Thêm visibility
+            'throw' => false, // Thêm throw (optional)
+        ],
+        'video' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'), 
+            'url' => 'http://127.0.0.1:8000/storage', 
+            'visibility' => 'public',
+            'throw' => false, 
+        ],
+        'audio' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'), 
+            'url' => 'http://127.0.0.1:8000/storage', 
+            'visibility' => 'public',
+            'throw' => false, 
+        ],
+        'file'=> [
+            'driver' => 'local',
+            'root' => storage_path('app/public'), 
+            // 'url' => 'http://127.0.0.1:8000/storage', 
+            'url' => env('APP_URL').'/storage',
 
+            'visibility' => 'public',
+            'throw' => false, 
+        ],
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app/private'),
-            'serve' => true,
+            'root' => storage_path('app'),
             'throw' => false,
         ],
 
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
+        'driver' => 'local',
+        'root' => storage_path('app/public'),
+        'url' => env('APP_URL').'/storage',
+        // 'url' => 'http://127.0.0.1:8000/storage',
+        'visibility' => 'public',
+    ],
 
         's3' => [
             'driver' => 's3',
@@ -72,6 +100,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        // public_path('images') => storage_path('app/images'),
     ],
+    
 
 ];

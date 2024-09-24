@@ -62,10 +62,10 @@ class EntertainmentSpot extends Model
         });
     }
 
-    // public function comments()
-    // {
-    //     return $this->hasMany(Comment::class);
-    // }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
     protected $casts = [
         'distance' => 'double', 
     ];
