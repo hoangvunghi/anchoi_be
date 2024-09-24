@@ -12,7 +12,7 @@
         <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
 
             @foreach ($entertainmentSpots as $spot)
-            <a href="/detail/{{ $spot->slug }}" class="overflow-hidden group">
+            <a href="{{ $spot->url }}" class="overflow-hidden group">
                 <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                     <div class="relative h-64">
                         <img src="storage/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
@@ -21,7 +21,7 @@
                         <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
                         <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->full_address }}</p>
                         <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward->name }}</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
                     </div>
                 </div>
             </a>
@@ -37,7 +37,7 @@
         </div>
         <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
             @foreach ($entertainmentSpots as $spot)
-            @if ($spot->entertainmentType && $spot->entertainmentType->type === 'an')
+            @if ($spot->entertainment_type_slug && $spot->entertainment_type_slug === 'an')
             <a href="/detail/{{ $spot->slug }}" class="overflow-hidden group">
                 <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                     <div class="relative h-64">
@@ -45,9 +45,9 @@
                     </div>
                     <div class="px-4 py-2">
                         <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->address }}</p>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone }}</p>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->area }}</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->full_address }}</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
                     </div>
                 </div>
             </a>
@@ -63,7 +63,7 @@
         </div>
         <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
             @foreach ($entertainmentSpots as $spot)
-            @if ($spot->entertainmentType && $spot->entertainmentType->type === 'choi')
+            @if ($spot->entertainment_type_slug && $spot->entertainment_type_slug === 'choi')
             <a href="/detail/{{ $spot->slug }}" class="overflow-hidden group">
                 <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                     <div class="relative h-64">
@@ -71,9 +71,9 @@
                     </div>
                     <div class="px-4 py-2">
                         <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->address }}</p>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone }}</p>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->area }}</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->full_address }}</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
                     </div>
                 </div>
             </a>

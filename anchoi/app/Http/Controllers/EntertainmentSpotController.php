@@ -26,12 +26,20 @@ class EntertainmentSpotController extends Controller
         }
         return null;
     }
-
+    public function index_nr(){
+        $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
+        return response()->json([
+            'entertainmentSpots' => $this->transformEntertainmentSpots($entertainmentSpots),
+        ]);
+    }
     public function index()
     {
-        $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
+        // $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
+        $response=$this->index_nr();
+        $entertainmentSpots= $response->getData()->entertainmentSpots;
         return view("home", compact('entertainmentSpots'));
     }
+    
 
     public function store(Request $request)
     {
@@ -456,7 +464,7 @@ class EntertainmentSpotController extends Controller
                 "latitude" => $entertainmentSpot->latitude,
                 "longitude" => $entertainmentSpot->longitude,
             ],
-            "url" => url('/detail' . '/' . $entertainmentSpot->entertainmentType->slug . '-' . $entertainmentSpot->ward->slug . '/'  . $entertainmentSpot->slug),
+            "url" => url('/' . $entertainmentSpot->entertainmentType->slug . '-' . $entertainmentSpot->ward->slug . '/'  . $entertainmentSpot->slug),
             "telephone" => $entertainmentSpot->phone_number,
             "review" => $reviews,
             "aggregateRating" => $aggregateRating,
@@ -464,6 +472,8 @@ class EntertainmentSpotController extends Controller
             "priceRange" => "VND",
             "openingHoursSpecification" => $openingHoursSpecification,
         ];
+        // "url" => url('/' . $entertainmentSpot->entertainmentType->slug . '-' . $entertainmentSpot->ward->slug . '/'  . $entertainmentSpot->slug),
+        $url = $entertainmentSpot->entertainmentType->slug . '-' . $entertainmentSpot->ward->slug . '/'  . $entertainmentSpot->slug;
 
         return [
             'id' => $entertainmentSpot->id,
@@ -471,6 +481,7 @@ class EntertainmentSpotController extends Controller
             'entertainment_type_id' => $entertainmentSpot->entertainment_type_id,
             'entertainment_type_slug' => $entertainmentSpot->entertainmentType->slug,
             'ward_id' => $entertainmentSpot->ward_id,
+            "url"=>$url,
             'ward_slug' => $entertainmentSpot->ward->slug,
             'ward_name' => $entertainmentSpot->ward->name,
             'full_address' => $entertainmentSpot->full_address,
