@@ -348,7 +348,7 @@ class EntertainmentSpotController extends Controller
             return response()->json(['message' => 'Entertainment Spot not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $titlePage = $entertainmentSpot->name . $this->clearString($entertainmentSpot->full_address);
+        $titlePage = $entertainmentSpot->name ." ". $this->clearString($entertainmentSpot->full_address);
         return response()->json([
             'entertainmentSpot' => $this->transformEntertainmentSpot($entertainmentSpot),
             'titlePage' => $titlePage
@@ -360,7 +360,8 @@ class EntertainmentSpotController extends Controller
 
         $entertainmentSpot = $response->getData()->entertainmentSpot;
         $titlePage = $response->getData()->titlePage;
-        return view("detail", compact("entertainmentSpot", "titlePage"));
+        $realtedEntertainmentSpots = $this->relatedEntertainmentSpots($entertainmentSpot->id)->getData();
+        return view("detail", compact("entertainmentSpot", "titlePage", "realtedEntertainmentSpots"));
     }
     public function entertainment_spot_type_list(Request $request, $type)
     {
@@ -480,6 +481,7 @@ class EntertainmentSpotController extends Controller
             'name' => $entertainmentSpot->name,
             'entertainment_type_id' => $entertainmentSpot->entertainment_type_id,
             'entertainment_type_slug' => $entertainmentSpot->entertainmentType->slug,
+            "loai_hinh" => $entertainmentSpot->entertainmentType->type,
             'ward_id' => $entertainmentSpot->ward_id,
             "url"=>$url,
             'ward_slug' => $entertainmentSpot->ward->slug,
@@ -487,7 +489,7 @@ class EntertainmentSpotController extends Controller
             'full_address' => $entertainmentSpot->full_address,
             'phone_number' => $entertainmentSpot->phone_number,
             'description' => $entertainmentSpot->description,
-            'banner_image' => $entertainmentSpot->banner_image,
+            'banner_image' => "storage/" . $entertainmentSpot->banner_image,
             'price' => $entertainmentSpot->price,
             'name_of_owner' => $entertainmentSpot->name_of_owner,
             'status' => $entertainmentSpot->status,

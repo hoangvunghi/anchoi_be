@@ -15,7 +15,7 @@
             <a href="{{ $spot->url }}" class="overflow-hidden group">
                 <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                     <div class="relative h-64">
-                        <img src="storage/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
+                        <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
                     </div>
                     <div class="px-4 py-2">
                         <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
@@ -37,11 +37,11 @@
         </div>
         <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
             @foreach ($entertainmentSpots as $spot)
-            @if ($spot->entertainment_type_slug && $spot->entertainment_type_slug === 'an')
+            @if ( $spot->loai_hinh === 'an')
             <a href="/detail/{{ $spot->slug }}" class="overflow-hidden group">
                 <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                     <div class="relative h-64">
-                        <img src="storage/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
+                        <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
                     </div>
                     <div class="px-4 py-2">
                         <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
@@ -63,11 +63,11 @@
         </div>
         <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
             @foreach ($entertainmentSpots as $spot)
-            @if ($spot->entertainment_type_slug && $spot->entertainment_type_slug === 'choi')
+            @if ($spot->loai_hinh && $spot->loai_hinh === 'choi')
             <a href="/detail/{{ $spot->slug }}" class="overflow-hidden group">
                 <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                     <div class="relative h-64">
-                        <img src="storage/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
+                        <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
                     </div>
                     <div class="px-4 py-2">
                         <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>

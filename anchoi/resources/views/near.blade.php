@@ -63,7 +63,7 @@
                     <a href="/detail/{{ $spot->slug }}" class="overflow-hidden group">
                         <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                             <div class="relative h-64">
-                                <img src="storage/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
+                                <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
                             </div>
                             <div class="px-4 py-2">
                                 <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
