@@ -17,4 +17,6 @@ Route::get('/', [EntertainmentSpotController::class, 'index']);
 Route::get('/nearest/{type}',[EntertainmentSpotController::class,'findNearestEntertainmentSpotsByTypeRender']);
 Route::get('/contact', [Base::class, 'contact']);
 Route::get('/{params}/{id}', [EntertainmentSpotController::class, 'urlApiSearchDetailRender']);
+Route::get('/{params}', [EntertainmentSpotController::class, 'urlApiSearchRender']);
+Route::get('/hehe/hehe/hehe', [EntertainmentSpotController::class, 'index_nr']);
 

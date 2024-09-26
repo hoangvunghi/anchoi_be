@@ -73,14 +73,14 @@
       <div class="flex flex-col gap-2">
         <span>Địa điểm</span>
         <div class="inline-block">
-          <a class="hover:underline" href="/karaoke-ha-noi-quan-thanh-xuan-nguyen-tuan">{{$entertainmentSpot->ward_name}}</a>,
-          <a class="hover:underline" href="/karaoke-ha-noi-quan-thanh-xuan">{{$entertainmentSpot->district_name}}</a>,
-          <a class="hover:underline" href="/karaoke-ha-noi">{{$entertainmentSpot->province_name}}</a>
+          <a class="hover:underline" href="/{{$entertainmentSpot->url_xa}}">{{$entertainmentSpot->ward_name}}</a>,
+          <a class="hover:underline" href="/{{$entertainmentSpot->url_huyen}}">{{$entertainmentSpot->district_name}}</a>,
+          <a class="hover:underline" href="/{{$entertainmentSpot->url_tinh}}">{{$entertainmentSpot->province_name}}</a>
         </div>
       </div>
       <div class="flex flex-col gap-2">
         <span>Loại hình</span>
-        <a class="hover:underline" href="/karaoke">{{$entertainmentSpot->entertainment_type_name}}</a>
+        <a class="hover:underline" href="/nearest/{{$entertainmentSpot->entertainment_type_slug}}">{{$entertainmentSpot->entertainment_type_name}}</a>
       </div>
     </div>
   </div>
@@ -89,17 +89,6 @@
 
   <div class="py-3 border-t mt-4">
     <p class="text-lg font-semibold mb-2">Thông tin chi tiết</p>
-    <!-- <div>
-      <h1><strong>{{$entertainmentSpot->name}} - {{$entertainmentSpot->full_address}}</strong></h1>
-      <h2 style="margin-left:0px;"><strong>Liên Hệ Đặt Phòng: {{$entertainmentSpot->phone_number}}</strong></h2>
-      <p style="margin-left:0px;"> <img src="https://diadiemvui.com/upload/images/20190409_153004%20(1).jpg" alt="" width="787" height="670"></p>
-      <p style="margin-left:0px;"> </p>
-      <p style="margin-left:0px;"><img src="https://diadiemvui.com/upload/images/karaoke%20bobo%20061%20-%20Copy(2).JPG" alt="" width="900" height="600"></p>
-      <p style="margin-left:0px;"> </p>
-      <p style="margin-left:0px;"><img src="https://diadiemvui.com/upload/images/karaoke%20bobo%20080(2).JPG" alt="" width="900" height="600"></p>
-      <p style="margin-left:0px;"> </p>
-      <p style="margin-left:0px;"><img src="https://diadiemvui.com/upload/images/karaoke%20314(2).JPG" alt="" width="900" height="600"></p>
-    </div> -->
     <div>
       {!!$entertainmentSpot->description!!}
     </div>
@@ -124,7 +113,7 @@
     <p class="text-lg font-semibold mb-2">Địa điểm liên quan</p>
     <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1">
       @foreach ($realtedEntertainmentSpots as $relatedSpot)
-      <a class="overflow-hidden group cursor-pointer" href="{{$entertainmentSpot->url}}">
+      <a class="overflow-hidden group cursor-pointer" href="/{{$relatedSpot->url}}">
         <div class="rounded-xl border bg-card text-card-foreground shadow">
           <div class="w-full h-64 relative">
             <img src="/{{ $relatedSpot->banner_image }}" alt="{{ $relatedSpot->name }}" class="absolute inset-0 object-cover w-full h-full" />
@@ -147,7 +136,7 @@
     <div class="flex flex-row items-center gap-2">
       Số sao trung bình:
       <div class="flex flex-row font-semibold items-center gap-1">
-        5
+        {{$entertainmentSpot->average_rating}}
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 stroke-yellow-400 fill-yellow-400">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
         </svg>

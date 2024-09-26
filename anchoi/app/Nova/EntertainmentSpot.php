@@ -117,6 +117,10 @@ class EntertainmentSpot extends Resource
             Text::make('Longitude')
                 ->nullable()
                 ->readonly(),
+            // slug
+            Slug::make('Slug')
+                ->from('Name')
+                ->sortable(),
         ];
     }
 

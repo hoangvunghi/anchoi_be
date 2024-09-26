@@ -26,7 +26,8 @@ class EntertainmentSpotController extends Controller
         }
         return null;
     }
-    public function index_nr(){
+    public function index_nr()
+    {
         $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
         return response()->json([
             'entertainmentSpots' => $this->transformEntertainmentSpots($entertainmentSpots),
@@ -35,11 +36,11 @@ class EntertainmentSpotController extends Controller
     public function index()
     {
         // $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
-        $response=$this->index_nr();
-        $entertainmentSpots= $response->getData()->entertainmentSpots;
+        $response = $this->index_nr();
+        $entertainmentSpots = $response->getData()->entertainmentSpots;
         return view("home", compact('entertainmentSpots'));
     }
-    
+
 
     public function store(Request $request)
     {
@@ -235,7 +236,7 @@ class EntertainmentSpotController extends Controller
         $loaiHinhList = EntertainmentType::pluck('slug')->toArray();
         $foundLoaiHinhSlug = $this->findMatchInList($params, $loaiHinhList);
         if (!$foundLoaiHinhSlug) {
-            return response()->json(['message' => 'Không tìm thấy địa điểm nào phù hợp.', 'status' => 404], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'Không tìm thấy địa điểm nào phù hợp.', 'status' => 404, 'entertainmentSpots' => ""], Response::HTTP_NOT_FOUND);
         }
         $loaiHinhName = EntertainmentType::where('slug', $foundLoaiHinhSlug)->first()->name;
         $position = strpos($params, $foundLoaiHinhSlug) - 1;
@@ -293,7 +294,7 @@ class EntertainmentSpotController extends Controller
 
         $entertainmentSpots = $query->with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
         if ($entertainmentSpots->isEmpty()) {
-            return response()->json(['message' => 'Entertainment Spot not found'], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'Entertainment Spot not found', 'entertainmentSpots' => ""], Response::HTTP_NOT_FOUND);
         }
 
         $pageTitle = "Các địa điểm " . $loaiHinhName . " tại " . $tinhName;
@@ -304,6 +305,18 @@ class EntertainmentSpotController extends Controller
             'pageTitle' => $pageTitle,
             'title' => $title
         ]);
+    }
+
+    public function urlApiSearchRender(Request $request, $params)
+    {
+        $response = $this->urlApiSearch($request, $params);
+        if ($response->getData()->entertainmentSpots == "") {
+            return view("404");
+        }
+        $entertainmentSpotss = $response->getData()->entertainmentSpots;
+        $pageTitle = $response->getData()->pageTitle;
+        $title = $response->getData()->title;
+        return view("searchResult", compact("entertainmentSpotss", "pageTitle", "title"));
     }
 
     public function getLastId()
@@ -348,7 +361,7 @@ class EntertainmentSpotController extends Controller
             return response()->json(['message' => 'Entertainment Spot not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $titlePage = $entertainmentSpot->name ." ". $this->clearString($entertainmentSpot->full_address);
+        $titlePage = $entertainmentSpot->name . " " . $this->clearString($entertainmentSpot->full_address);
         return response()->json([
             'entertainmentSpot' => $this->transformEntertainmentSpot($entertainmentSpot),
             'titlePage' => $titlePage
@@ -483,7 +496,10 @@ class EntertainmentSpotController extends Controller
             'entertainment_type_slug' => $entertainmentSpot->entertainmentType->slug,
             "loai_hinh" => $entertainmentSpot->entertainmentType->type,
             'ward_id' => $entertainmentSpot->ward_id,
-            "url"=>$url,
+            "url" => $url,
+            "url_tinh" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->district->province->slug,
+            "url_huyen" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->district->province->slug . "-" . $entertainmentSpot->ward->district->slug,
+            "url_xa" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->district->province->slug . "-" . $entertainmentSpot->ward->district->slug . "-" . $entertainmentSpot->ward->slug,
             'ward_slug' => $entertainmentSpot->ward->slug,
             'ward_name' => $entertainmentSpot->ward->name,
             'full_address' => $entertainmentSpot->full_address,
