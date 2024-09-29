@@ -11,7 +11,7 @@
     @foreach ($entertainmentSpots as $entertainmentSpot)
     <script type="application/ld+json">
         @php
-        echo json_encode($entertainmentSpot->header);
+        echo json_encode($entertainmentSpot -> header);
         @endphp
     </script>
     @endforeach
@@ -56,7 +56,7 @@
         <section class="py-4">
             <div class="flex flex-row items-end gap-4">
                 <h2 class="text-2xl font-semibold">Địa điểm hot</h2>
-                <a href="/list-all/all" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
+                <a href="/list/cac-dia-diem/vui-choi" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
             </div>
             <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
 
@@ -67,8 +67,11 @@
                             <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
                         </div>
                         <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->full_address }}</p>
+                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ Str::limit($spot->name, 32, '...') }}</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 text-ellipsis">
+                                Địa điểm:
+                                {{ Str::limit($spot->full_address, 35, '...') }}
+                            </p>
                             <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
                             <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
                         </div>
@@ -82,25 +85,26 @@
         <section class="py-4">
             <div class="flex flex-row items-end gap-4">
                 <h2 class="text-2xl font-semibold">Điểm ăn nét</h2>
-                <a href="/list-all/eat" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
+                <a href="/list/cac-dia-diem/an-uong" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
             </div>
             <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
-                @foreach ($entertainmentSpots as $spot)
-                @if ( $spot->loai_hinh === 'an')
+                @foreach ($entertainmentSpots_an as $spot)
                 <a href="/{{ $spot->url }}" class="overflow-hidden group">
                     <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                         <div class="relative h-64">
                             <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
                         </div>
                         <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->full_address }}</p>
+                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ Str::limit($spot->name, 32, '...') }}</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 text-ellipsis">
+                                Địa điểm:
+                                {{ Str::limit($spot->full_address, 35, '...') }}
+                            </p>
                             <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
                             <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
                         </div>
                     </div>
                 </a>
-                @endif
                 @endforeach
             </div>
         </section>
@@ -108,25 +112,26 @@
         <section class="py-4">
             <div class="flex flex-row items-end gap-4">
                 <h2 class="text-2xl font-semibold">Điểm chơi nét</h2>
-                <a href="/list-all/play" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
+                <a href="/list/cac-dia-diem/choi" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
             </div>
             <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
-                @foreach ($entertainmentSpots as $spot)
-                @if ($spot->loai_hinh && $spot->loai_hinh === 'choi')
+                @foreach ($entertainmentSpots_choi as $spot)
                 <a href="/{{ $spot->url }}" class="overflow-hidden group">
                     <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                         <div class="relative h-64">
                             <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
                         </div>
                         <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->full_address }}</p>
+                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ Str::limit($spot->name, 35, '...') }}</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 text-ellipsis">
+                                Địa điểm:
+                                {{ Str::limit($spot->full_address, 35, '...') }}
+                            </p>
                             <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
                             <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
                         </div>
                     </div>
                 </a>
-                @endif
                 @endforeach
             </div>
         </section>

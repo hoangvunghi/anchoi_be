@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$title}}</title>
+    <title>{{$pageTitle}}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     @foreach ($entertainmentSpots as $entertainmentSpot)
@@ -48,6 +48,7 @@
             </button>
         </div>
     </header>
+    @include('search')
     <main class="container mx-auto px-4 py-8">
         <div class="flex-1">
             <div class="container">
@@ -58,11 +59,11 @@
                             <li role="presentation" aria-hidden="true" class="[&amp;>svg]:size-3.5"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
                                 </svg></li>
-                            <li class="inline-flex items-center gap-1.5"><span role="link" aria-disabled="true" aria-current="page" class="font-normal text-foreground">{{ $titlePage }}</span></li>
+                            <li class="inline-flex items-center gap-1.5"><span role="link" aria-disabled="true" aria-current="page" class="font-normal text-foreground">{{ $pageTitle }}</span></li>
                         </ol>
                     </nav>
                     <div class="flex flex-row items-end gap-4">
-                        <p class="text-2xl font-semibold">{{ $titlePage }}</p>
+                        <p class="text-2xl font-semibold">{{ $title }}</p>
                     </div>
                     <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
 

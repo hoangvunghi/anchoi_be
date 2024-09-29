@@ -5,10 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ăn chơi nét</title>
+    <title>{{$pageTitle}}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    @foreach ($entertainmentSpotss as $entertainmentSpot)
+    @foreach ($entertainmentSpots as $entertainmentSpot)
     <script type="application/ld+json">
         @php
         echo json_encode($entertainmentSpot->header);
@@ -55,12 +55,11 @@
 
         <section class="py-4">
             <div class="flex flex-row items-end gap-4">
-                <h2 class="text-2xl font-semibold">Địa điểm hot</h2>
-                <a href="/list-all/all" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
+                <h2 class="text-2xl font-semibold">{{$title}}</h2>
             </div>
             <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
 
-                @foreach ($entertainmentSpotss as $spot)
+                @foreach ($entertainmentSpots as $spot)
                 <a href="{{ $spot->url }}" class="overflow-hidden group">
                     <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
                         <div class="relative h-64">
@@ -78,59 +77,6 @@
 
             </div>
         </section>
-
-        <section class="py-4">
-            <div class="flex flex-row items-end gap-4">
-                <h2 class="text-2xl font-semibold">Điểm ăn nét</h2>
-                <a href="/list-all/eat" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
-            </div>
-            <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
-                @foreach ($entertainmentSpotss as $spot)
-                @if ( $spot->loai_hinh === 'an')
-                <a href="/detail/{{ $spot->slug }}" class="overflow-hidden group">
-                    <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
-                        <div class="relative h-64">
-                            <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
-                        </div>
-                        <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->full_address }}</p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
-                        </div>
-                    </div>
-                </a>
-                @endif
-                @endforeach
-            </div>
-        </section>
-
-        <section class="py-4">
-            <div class="flex flex-row items-end gap-4">
-                <h2 class="text-2xl font-semibold">Điểm chơi nét</h2>
-                <a href="/list-all/play" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
-            </div>
-            <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 max-[730px]:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
-                @foreach ($entertainmentSpotss as $spot)
-                @if ($spot->loai_hinh && $spot->loai_hinh === 'choi')
-                <a href="/detail/{{ $spot->slug }}" class="overflow-hidden group">
-                    <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
-                        <div class="relative h-64">
-                            <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
-                        </div>
-                        <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ $spot->name }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Địa điểm: {{ $spot->full_address }}</p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
-                        </div>
-                    </div>
-                </a>
-                @endif
-                @endforeach
-            </div>
-        </section>
-
     </main>
 
     <footer class="bg-gray-100 dark:bg-gray-800 mt-2 border-t border-gray-200 dark:border-gray-700 py-4">
