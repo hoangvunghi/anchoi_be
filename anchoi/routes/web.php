@@ -26,7 +26,7 @@ Route::get('/list/cac-dia-diem/choi', [EntertainmentSpotController::class, 'inde
 
 use App\Http\Controllers\CommentController;
 
-Route::prefix('/comments')->group(function () {
+Route::prefix('/api/comments')->group(function () {
     Route::post('', [CommentController::class, 'store']);
     Route::get('/{id}', [CommentController::class, 'showWithReplies']);
 });
