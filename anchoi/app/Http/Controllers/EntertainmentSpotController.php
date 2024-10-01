@@ -825,9 +825,14 @@ class EntertainmentSpotController extends Controller
 
     public function findNearestEntertainmentSpotsRender(Request $request)
     {
-        // Lấy tọa độ từ request; nếu không có thì sử dụng lat = 0, lon = 0
-        $lat = $request->input('lat', 0);
-        $lon = $request->input('lon', 0);
+        if (session()->has('latitude') && session()->has('longitude')) {
+            $lat = session('latitude');
+            $lon = session('longitude');
+        } else {
+            // Nếu không có tọa độ trong session, sử dụng giá trị mặc định (ví dụ: 0, 0)
+            $lat = 0;
+            $lon = 0; 
+        }
         $response = $this->findNearestEntertainmentSpots($request, $lat, $lon);
 
         // Lấy dữ liệu từ response
@@ -878,11 +883,26 @@ class EntertainmentSpotController extends Controller
             'pageTitle' => $pageTitle,
         ]);
     }
+    public function saveLocation(Request $request)
+    {
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+
+        session(['latitude' => $latitude, 'longitude' => $longitude]);
+
+        return response()->json(['message' => 'Vị trí đã được lưu vào session.', 'latitude' => $latitude, 'longitude' => $longitude]); 
+    }
     public function findNearestEntertainmentSpotsByTypeRender(Request $request, $type)
     {
         // Lấy tọa độ từ request; nếu không có thì sử dụng lat = 0, lon = 0
-        $lat = $request->input('lat', 0);
-        $lon = $request->input('lon', 0);
+        if (session()->has('latitude') && session()->has('longitude')) {
+            $lat = session('latitude');
+            $lon = session('longitude');
+        } else {
+            // Nếu không có tọa độ trong session, sử dụng giá trị mặc định (ví dụ: 0, 0)
+            $lat = 0;
+            $lon = 0; 
+        }
         // Gọi hàm findNearestEntertainmentSpotsByType
         $response = $this->findNearestEntertainmentSpotsByType($request, $lat, $lon, $type);
 

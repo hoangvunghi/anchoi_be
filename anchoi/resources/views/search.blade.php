@@ -1,52 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9InctOCBoLTgiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0yMC4yIDIwLjJjMi4wNC0yLjAzLjAyLTcuMzYtNC41LTExLjktNC41NC00LjUyLTkuODctNi41NC0xMS45LTQuNS0yLjA0IDIuMDMtLjAyIDcuMzYgNC41IDExLjkgNC41NCA0LjUyIDkuODcgNi41NCAxMS45IDQuNVoiPjwvcGF0aD48cGF0aCBkPSJNMTUuNyAxNS43YzQuNTItNC41NCA2LjU0LTkuODcgNC41LTExLjktMi4wMy0yLjA0LTcuMzYtLjAyLTExLjkgNC41LTQuNTIgNC41NC02LjU0IDkuODctNC41IDExLjkgMi4wMyAyLjA0IDcuMzYgLjAyIDExLjktNC41WiI+PC9wYXRoPjwvc3ZnPg==" type="image/svg+xml"> 
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
+
 <body>
-    <header id="header" >
+<header id="header" >
         <h1 class="text-2xl font-bold">Tìm điểm ăn chơi</h1>
     </header>
 
-    <div class="search-bar flex gap-4 mt-4 p-4 bg-gray-100 rounded-lg">
-        <div class="search-select-container relative"> 
-            <select class="search-select w-48 p-2 border border-gray-300 rounded-md appearance-none" id="loai-hinh" name="loai-hinh">
+
+
+    <div class="search-bar flex flex-wrap gap-4 mt-4 p-4 bg-gray-100 rounded-lg">
+        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
+            <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="loai-hinh" name="loai-hinh">
                 <option value="">Chọn loại hình</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
             </div>
         </div>
-        <div class="search-select-container relative">
-            <select class="search-select w-48 p-2 border border-gray-300 rounded-md appearance-none" id="tinh" name="tinh">
+        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
+            <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="tinh" name="tinh">
                 <option value="">Chọn tỉnh/thành phố</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
             </div>
         </div>
-        <div class="search-select-container relative">
-            <select class="search-select w-48 p-2 border border-gray-300 rounded-md appearance-none" id="huyen" name="huyen">
+        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
+            <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="huyen" name="huyen">
                 <option value="">Chọn quận/huyện</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
             </div>
         </div>
-        <div class="search-select-container relative">
-            <select class="search-select w-48 p-2 border border-gray-300 rounded-md appearance-none" id="xa-phuong" name="xa-phuong">
+        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
+            <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="xa-phuong" name="xa-phuong">
                 <option value="">Chọn xã/phường</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
             </div>
         </div>
-        <button class="search-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" onclick="timKiem()">Tìm kiếm</button>
-        <button class="search-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" onclick="timKiemGanDay()">Tìm kiếm gần đây</button>
-
+        <div class="w-full sm:w-1/2 md:w-1/4 mt-2">
+            <button class="search-button w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                onclick="timKiem()">Tìm kiếm</button>
+        </div>
+        <div class="w-full sm:w-1/2 md:w-1/4 mt-2">
+            <button class="search-button w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                onclick="timKiemGanDay()">Tìm kiếm gần đây</button>
+        </div>
     </div>
 </body>
 </html> 
@@ -184,15 +204,15 @@
         }
         function timKiemGanDay() {
             const loaiHinhSelect = document.getElementById('loai-hinh');
-            const loaiHinh = loaiHinhSelect.options[loaiHinhSelect.selectedIndex].id; 
-            let newUrl = 'nearest';
-            if (loaiHinh) {
-                newUrl += `/${loaiHinh}`;
-            }
-            if (newUrl) {
-                window.location.href = newUrl;
-            }
-        }
+                        const loaiHinh = loaiHinhSelect.options[loaiHinhSelect.selectedIndex].id; 
+                        let newUrl = '/nearest';
+                        if (loaiHinh) {
+                            newUrl += `/${loaiHinh}`; 
+                        }
+                        if (newUrl) {
+                            window.location.href = newUrl;
+                        }
+    }
     </script>
 </body>
 </html>
