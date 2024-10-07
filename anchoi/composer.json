@@ -13,7 +13,8 @@
         "laravel/framework": "^11.9",
         "laravel/nova": "4.35.0",
         "laravel/tinker": "^2.9",
-        "mostafaznv/nova-ckeditor": "^7.3"
+        "mostafaznv/nova-ckeditor": "^7.3",
+        "simonhamp/laravel-nova-csv-import": "^0.7.2"
     },
     "repositories": [
         {

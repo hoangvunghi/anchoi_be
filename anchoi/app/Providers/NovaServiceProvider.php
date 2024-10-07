@@ -5,7 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-
+use SimonHamp\LaravelNovaCsvImport\LaravelNovaCsvImport;
+use Laravel\Nova\Menu\MenuSection;
+use Illuminate\Http\Request;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
@@ -16,6 +18,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+        
     }
 
     /**
@@ -41,9 +44,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+            // return in_array($user->email, [
+            //     //
+            // ]);
+            return true;
         });
     }
 
@@ -66,7 +70,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [new LaravelNovaCsvImport,];
     }
 
     /**

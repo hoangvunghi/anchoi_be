@@ -1,7 +1,7 @@
 <div class="flex flex-col min-h-screen">
     @include('header')
 
-    <main class="flex-1 flex flex-col scroll-custom overflow-y-auto">
+    <main class="flex-1 flex flex-col scroll-custom overflow-y-auto  pt-20">
         <div class="flex-1">
             <div class="container mx-auto">
                 <div class="flex flex-col">
@@ -47,6 +47,14 @@
         </div>
     </footer>
     <script>
+          document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', function () {
+        mobileMenu.classList.toggle('hidden');
+    });
+});
         function requestLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
