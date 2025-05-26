@@ -52,7 +52,7 @@ class Ward extends Resource
                 ->from('Name')
                 ->sortable(),
 
-            BelongsTo::make('District')
+            BelongsTo::make('Province')
                 ->sortable(),
 
             Text::make('Prefix')

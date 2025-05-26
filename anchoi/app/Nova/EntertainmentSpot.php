@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Image;
-use App\Models\District;
 use App\Models\Ward;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Boolean;

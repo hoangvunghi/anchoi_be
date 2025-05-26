@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('xa', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('entertainment_spot_id')->constrained('diem_vui_choi')->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
             $table->string('name');
-            $table->foreignId('district_id')->constrained('quan_huyen')->onDelete('cascade');
-            $table->string('slug')->nullable();
-            $table->string('prefix')->default('xa')->nullable();
+            $table->text('content');
+            $table->integer('number_of_star')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('xa');
+        Schema::dropIfExists('comments');
     }
 };

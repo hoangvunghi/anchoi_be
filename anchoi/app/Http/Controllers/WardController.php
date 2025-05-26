@@ -20,7 +20,7 @@ class WardController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
             'prefix' => 'nullable|string|max:255',
-            'district_id' => 'required|integer|exists:quan_huyen,id',
+            'province_id' => 'required|integer|exists:tinh,id',
         ]);
 
         $ward = Ward::create($request->all());
@@ -44,7 +44,7 @@ class WardController extends Controller
             'name' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255',
             'prefix' => 'nullable|string|max:255',
-            'district_id' => 'nullable|integer|exists:quan_huyen,id',
+            'province_id' => 'nullable|integer|exists:tinh,id',
         ]);
 
         $ward = Ward::find($id);
@@ -56,10 +56,10 @@ class WardController extends Controller
         $ward->update($request->all());
         return response()->json($ward);
     }
-    // Lấy thông tin các phường xã theo quận huyện
-    public function getWardByDistrict($id)
+    // Lấy thông tin các phường xã theo tỉnh
+    public function getWardByProvince($id)
     {
-        $wards = Ward::where('district_id', $id)->get();
+        $wards = Ward::where('province_id', $id)->get();
         return response()->json($wards);
     }
     // xóa phường xã theo ID

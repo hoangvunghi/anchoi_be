@@ -191,43 +191,47 @@
     });
 });
 
+    async function requestLocation() {
+        try {
+            // Kiểm tra vị trí đã lưu trước
+            const response = await fetch('/get-location');
+            const data = await response.json();
+            
+            if (data.status === 'success' && data.has_location) {
+                console.log('Đã có vị trí trong session');
+                return;
+            }
 
-    function requestLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
+            // Nếu chưa có vị trí hoặc vị trí đã cũ, yêu cầu vị trí mới
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
 
-                    // Gửi dữ liệu vị trí lên server (AJAX)
-                    fetch('/save-location', {
+                        fetch('/save-location', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                             },
-                            body: JSON.stringify({
-                                latitude,
-                                longitude
-                            })
+                            body: JSON.stringify({ latitude, longitude })
                         })
                         .then(response => response.json())
-                        .then(data => {
-                            console.log("Vị trí đã được lưu vào session.");
-                            // Chuyển hướng đến trang phù hợp (nếu cần)
-                        })
-                        .catch(error => {
-                            console.error("Lỗi khi lưu vị trí vào session:", error);
-                            alert("Có lỗi xảy ra khi lưu vị trí. Vui lòng thử lại sau.");
-                        });
-                },
-                (error) => {
-                    console.error('Lỗi khi lấy vị trí:', error);
-                    alert('Vui lòng cho phép truy cập vị trí của bạn.');
-                }
-            );
-        } else {
-            alert('Trình duyệt của bạn không hỗ trợ Geolocation.');
+                        .then(data => console.log('Vị trí đã được lưu:', data))
+                        .catch(error => console.error('Lỗi khi lưu vị trí:', error));
+                    },
+                    error => {
+                        console.error('Lỗi khi lấy vị trí:', error);
+                        alert('Vui lòng cho phép truy cập vị trí của bạn.');
+                    },
+                    { enableHighAccuracy: true }
+                );
+            } else {
+                alert('Trình duyệt của bạn không hỗ trợ Geolocation.');
+            }
+        } catch (error) {
+            console.error('Lỗi khi kiểm tra vị trí:', error);
         }
     }
 

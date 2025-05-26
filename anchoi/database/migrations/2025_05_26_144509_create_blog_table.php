@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('blog', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('banner_image');
-            $table->text('body');
-            $table->foreignId('category_id')->constrained('category')->onDelete('cascade');
             $table->string('slug')->nullable();
+            $table->text('content');
+            $table->string('banner_image')->nullable();
             $table->timestamps();
         });
     }

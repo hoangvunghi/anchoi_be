@@ -11,7 +11,6 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
 use App\Models\EntertainmentType;
 use App\Models\Province;
-use App\Models\District;
 use App\Models\Ward;
 use App\Models\Comment;
 
@@ -239,7 +238,6 @@ class EntertainmentSpotController extends Controller
 
         $loaiHinhFilter = $request->get('loai-hinh', null);
         $xaPhuongFilter = $request->get('xa-phuong', null);
-        $quanHuyenFilter = $request->get('quan-huyen', null);
         $tinhThanhPhoFilter = $request->get('tinh-thanh-pho', null);
 
         if ($loaiHinhFilter) {
@@ -256,16 +254,9 @@ class EntertainmentSpotController extends Controller
             });
         }
 
-        if ($quanHuyenFilter) {
-            $quanHuyenValues = explode(',', $quanHuyenFilter);
-            $query->whereHas('ward.district', function ($q) use ($quanHuyenValues) {
-                $q->whereIn('slug', $quanHuyenValues);
-            });
-        }
-
         if ($tinhThanhPhoFilter) {
             $tinhThanhPhoValues = explode(',', $tinhThanhPhoFilter);
-            $query->whereHas('ward.district.province', function ($q) use ($tinhThanhPhoValues) {
+            $query->whereHas('ward.province', function ($q) use ($tinhThanhPhoValues) {
                 $q->whereIn('slug', $tinhThanhPhoValues);
             });
         }
@@ -296,39 +287,22 @@ class EntertainmentSpotController extends Controller
             $q->where('slug', $foundLoaiHinhSlug);
         });
 
-        $tinhName = $huyenName = $xaPhuongName = null;
+        $tinhName = $xaPhuongName = null;
 
         if ($params) {
             $tenTinhList = Province::pluck('slug')->toArray();
             $foundTinhSlug = $this->findMatchInList($params, $tenTinhList);
             if ($foundTinhSlug) {
                 $tinhName = Province::where('slug', $foundTinhSlug)->first()->name;
-                $query->whereHas('ward.district.province', function ($q) use ($foundTinhSlug) {
+                $query->whereHas('ward.province', function ($q) use ($foundTinhSlug) {
                     $q->where('slug', $foundTinhSlug);
                 });
                 $position = strpos($params, $foundTinhSlug) - 1;
                 $params = trim(substr($params, $position + 1 + strlen($foundTinhSlug)));
-            }
-
-            if ($params) {
-                $tenHuyenList = District::whereHas('province', function ($query) use ($foundTinhSlug) {
-                    $query->where('slug', $foundTinhSlug);
-                })->pluck('slug')->toArray();
-                $foundHuyenSlug = $this->findMatchInList($params, $tenHuyenList);
-                if ($foundHuyenSlug) {
-                    $huyenName = District::where('slug', $foundHuyenSlug)->first()->name;
-                    $query->whereHas('ward.district', function ($q) use ($foundHuyenSlug) {
-                        $q->where('slug', $foundHuyenSlug);
-                    });
-                    $position = strpos($params, $foundHuyenSlug) - 1;
-                    $params = trim(substr($params, $position + 1 + strlen($foundHuyenSlug)));
-                }
 
                 if ($params) {
-                    $tenXaPhuongList = Ward::whereHas('district.province', function ($query) use ($foundTinhSlug) {
+                    $tenXaPhuongList = Ward::whereHas('province', function ($query) use ($foundTinhSlug) {
                         $query->where('slug', $foundTinhSlug);
-                    })->whereHas('district', function ($query) use ($foundHuyenSlug) {
-                        $query->where('slug', $foundHuyenSlug);
                     })->pluck('slug')->toArray();
                     $foundXaPhuongSlug = $this->findMatchInList($params, $tenXaPhuongList);
                     if ($foundXaPhuongSlug) {
@@ -340,9 +314,13 @@ class EntertainmentSpotController extends Controller
                 }
             }
         }
-
-        $pageTitle = "Các địa điểm " . $loaiHinhName;
-        $title = "Các địa điểm " . $loaiHinhName;
+        // nếu có loại hình thì + loại hình vào pageTitle
+        $pageTitle = "Các địa điểm ";
+        $title = "Các địa điểm ";
+        if (!empty($loaiHinhName)) {
+            $pageTitle .= $loaiHinhName;
+            $title .= $loaiHinhName;
+        }
 
         // Kiểm tra và thêm địa điểm vào tiêu đề trang (pageTitle)
         if (!empty($tinhName)) {
@@ -352,11 +330,8 @@ class EntertainmentSpotController extends Controller
         if (!empty($xaPhuongName)) {
             $title .= " tại " . $xaPhuongName . ", ";
         }
-        if (!empty($huyenName)) {
-            $title .= $huyenName . ", ";
-        }
         if (!empty($tinhName)) {
-            $title .=" tại " .$tinhName;
+            $title .= " tại " . $tinhName;
         }
 
         $title = trim($title, ", ");
@@ -554,7 +529,7 @@ class EntertainmentSpotController extends Controller
                 "@type" => "PostalAddress",
                 "streetAddress" => $entertainmentSpot->full_address,
                 "addressLocality" => $entertainmentSpot->ward->name,
-                "addressRegion" => $entertainmentSpot->district->name,
+                "addressRegion" => $entertainmentSpot->ward->province->name,
                 "addressCountry" => "VN",
             ],
             "geo" => [
@@ -581,9 +556,9 @@ class EntertainmentSpotController extends Controller
             "loai_hinh" => $entertainmentSpot->entertainmentType->type,
             'ward_id' => $entertainmentSpot->ward_id,
             "url" => $url,
-            "url_tinh" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->district->province->slug,
-            "url_huyen" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->district->province->slug . "-" . $entertainmentSpot->ward->district->slug,
-            "url_xa" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->district->province->slug . "-" . $entertainmentSpot->ward->district->slug . "-" . $entertainmentSpot->ward->slug,
+            "url_tinh" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->province->slug,
+            "url_huyen" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->province->slug,
+            "url_xa" => $entertainmentSpot->entertainmentType->slug . "-" . $entertainmentSpot->ward->province->slug . "-" . $entertainmentSpot->ward->slug,
             'ward_slug' => $entertainmentSpot->ward->slug,
             'ward_name' => $entertainmentSpot->ward->name,
             'full_address' => $entertainmentSpot->full_address,
@@ -599,10 +574,10 @@ class EntertainmentSpotController extends Controller
             "entertainment_type_name" => $entertainmentSpot->entertainmentType->name,
             "additional_info" => $entertainmentSpot->additional_info,
             "opening_hours" => $entertainmentSpot->opening_hours,
-            "province_name" => $entertainmentSpot->ward->district->province->name,
-            "district_name" => $entertainmentSpot->ward->district->name,
-            "provin_slug" => $entertainmentSpot->ward->district->province->slug,
-            "district_slug" => $entertainmentSpot->ward->district->slug,
+            "province_name" => $entertainmentSpot->ward->province->name,
+            "district_name" => $entertainmentSpot->ward->name,
+            "provin_slug" => $entertainmentSpot->ward->province->slug,
+            "district_slug" => $entertainmentSpot->ward->slug,
             "average_rating" => $entertainmentSpot->average_rating,
             "latitude" => $entertainmentSpot->latitude,
             "longitude" => $entertainmentSpot->longitude,
@@ -679,7 +654,7 @@ class EntertainmentSpotController extends Controller
 
         define('RELATED_SPOTS_LIMIT', 8);
 
-        $entertainmentSpot = EntertainmentSpot::with(['ward.district.province', 'entertainmentType'])->find($id);
+        $entertainmentSpot = EntertainmentSpot::with(['ward.province', 'entertainmentType'])->find($id);
 
         if (!$entertainmentSpot) {
             return response()->json(['message' => 'Entertainment Spot not found'], Response::HTTP_NOT_FOUND);
@@ -707,8 +682,8 @@ class EntertainmentSpotController extends Controller
                     ->where('entertainment_type_id', $entertainmentSpot->entertainment_type_id)
                     ->where('status', 'approved')
                     ->where('id', '!=', $id)
-                    ->whereHas('ward.district', function ($query) use ($entertainmentSpot) {
-                        $query->where('id', $entertainmentSpot->ward->district->id);
+                    ->whereHas('ward.province', function ($query) use ($entertainmentSpot) {
+                        $query->where('id', $entertainmentSpot->ward->province->id);
                     })
                     ->whereNotIn('id', $relatedSpots->pluck('id'))
                     ->orderBy('id', 'desc')
@@ -724,8 +699,8 @@ class EntertainmentSpotController extends Controller
                         ->where('entertainment_type_id', $entertainmentSpot->entertainment_type_id)
                         ->where('status', 'approved')
                         ->where('id', '!=', $id)
-                        ->whereHas('ward.district.province', function ($query) use ($entertainmentSpot) {
-                            $query->where('id', $entertainmentSpot->ward->district->province->id);
+                        ->whereHas('ward.province', function ($query) use ($entertainmentSpot) {
+                            $query->where('id', $entertainmentSpot->ward->province->id);
                         })
                         ->whereNotIn('id', $relatedSpots->pluck('id'))
                         ->orderBy('id', 'desc')
@@ -756,8 +731,8 @@ class EntertainmentSpotController extends Controller
                                 ->where('entertainment_type_id', '!=', $entertainmentSpot->entertainment_type_id)
                                 ->where('status', 'approved')
                                 ->where('id', '!=', $id)
-                                ->whereHas('ward.district', function ($query) use ($entertainmentSpot) {
-                                    $query->where('id', $entertainmentSpot->ward->district->id);
+                                ->whereHas('ward.province', function ($query) use ($entertainmentSpot) {
+                                    $query->where('id', $entertainmentSpot->ward->province->id);
                                 })
                                 ->whereNotIn('id', $relatedSpots->pluck('id'))
                                 ->orderBy('id', 'desc')
@@ -773,8 +748,8 @@ class EntertainmentSpotController extends Controller
                                     ->where('entertainment_type_id', '!=', $entertainmentSpot->entertainment_type_id)
                                     ->where('status', 'approved')
                                     ->where('id', '!=', $id)
-                                    ->whereHas('ward.district.province', function ($query) use ($entertainmentSpot) {
-                                        $query->where('id', $entertainmentSpot->ward->district->province->id);
+                                    ->whereHas('ward.province', function ($query) use ($entertainmentSpot) {
+                                        $query->where('id', $entertainmentSpot->ward->province->id);
                                     })
                                     ->whereNotIn('id', $relatedSpots->pluck('id'))
                                     ->orderBy('id', 'desc')
@@ -924,11 +899,53 @@ class EntertainmentSpotController extends Controller
     {
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
-
-        session(['latitude' => $latitude, 'longitude' => $longitude]);
-
-        return response()->json(['message' => 'Vị trí đã được lưu vào session.', 'latitude' => $latitude, 'longitude' => $longitude]);
+        
+        session(['user_location' => [
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'timestamp' => now()->timestamp
+        ]]);
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Vị trí đã được lưu'
+        ]);
     }
+
+    public function getLocation()
+    {
+        $location = session('user_location');
+        
+        if (!$location) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Chưa có vị trí được lưu',
+                'has_location' => false
+            ]);
+        }
+
+        // Kiểm tra xem vị trí có còn mới không (dưới 5 phút)
+        $timestamp = $location['timestamp'];
+        $now = now()->timestamp;
+        
+        if ($now - $timestamp > 5 * 60) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Vị trí đã cũ',
+                'has_location' => false
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'has_location' => true,
+            'location' => [
+                'latitude' => $location['latitude'],
+                'longitude' => $location['longitude']
+            ]
+        ]);
+    }
+
     public function findNearestEntertainmentSpotsByTypeRender(Request $request, $type)
     {
         // Lấy tọa độ từ request; nếu không có thì sử dụng lat = 0, lon = 0

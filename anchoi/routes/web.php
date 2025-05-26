@@ -18,7 +18,8 @@ Route::get('/{params}/{id}', [EntertainmentSpotController::class, 'urlApiSearchD
 Route::get('/{params}', [EntertainmentSpotController::class, 'urlApiSearchRender']);
 Route::get('/list/cac-dia-diem/an-uong', [EntertainmentSpotController::class, 'index_an']);
 Route::get('/list/cac-dia-diem/choi', [EntertainmentSpotController::class, 'index_choi']);
-Route::post('/save-location', [EntertainmentSpotController::class, 'saveLocation']);
+Route::post('/save-location', [EntertainmentSpotController::class, 'saveLocation'])->name('save-location');
+Route::get('/get-location', [EntertainmentSpotController::class, 'getLocation'])->name('get-location');
 use App\Http\Controllers\CommentController;
 
 Route::prefix('/api/comments')->group(function () {
@@ -32,17 +33,11 @@ Route::prefix('api/v1/provinces')->group(function () {
     Route::get('/{id}', [ProvinceController::class, 'show']);
 });
 
-use App\Http\Controllers\DistrictController;
-
-Route::prefix('api/v1/districts')->group(function () {
-    Route::get('/province/{id}', [DistrictController::class, 'getDistrictByProvince']);
-    Route::get('/{id}', [DistrictController::class, 'show']);
-});
-
 use App\Http\Controllers\WardController;
 
 Route::prefix('api/v1/wards')->group(function () {
-    Route::get('/district/{id}', [WardController::class, 'getWardByDistrict']);
+    Route::get('', [WardController::class, 'index']);
+    Route::get('/province/{id}', [WardController::class, 'getWardByProvince']);
     Route::get('/{id}', [WardController::class, 'show']);
 });
 

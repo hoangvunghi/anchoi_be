@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('tinh', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('slug')->nullable();
-            $table->string('prefix')->default('tinh')->nullable();
+            $table->string('prefix')->nullable();
             $table->timestamps();
         });
     }

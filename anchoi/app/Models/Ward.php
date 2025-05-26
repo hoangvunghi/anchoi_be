@@ -11,15 +11,15 @@ class Ward extends Model
     protected $table = 'xa_phuong';
 
     protected $fillable = [
-        'name', 'district_id', 'slug', 'prefix'
+        'name', 'province_id', 'slug', 'prefix'
     ];
 
     /**
-     * Relationship to the District model
+     * Relationship to the Province model
      */
-    public function district()
+    public function province()
     {
-        return $this->belongsTo(District::class);
+        return $this->belongsTo(Province::class);
     }
 
     /**

@@ -42,9 +42,9 @@ class EntertainmentSpot extends Model
         return $this->belongsTo(Ward::class);
     }
 
-    public function district()
+    public function province()
     {
-        return $this->hasOneThrough(District::class, Ward::class, 'id', 'id', 'ward_id', 'district_id');
+        return $this->hasOneThrough(Province::class, Ward::class, 'id', 'id', 'ward_id', 'province_id');
     }
 
     protected static function boot()

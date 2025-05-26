@@ -14,6 +14,14 @@ class Province extends Model
         'name', 'slug', 'prefix'
     ];
 
+    /**
+     * Relationship to the Ward model
+     */
+    public function wards()
+    {
+        return $this->hasMany(Ward::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

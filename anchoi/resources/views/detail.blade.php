@@ -93,7 +93,6 @@
             <span>Địa điểm</span>
             <div class="inline-block">
               <a class="hover:underline" href="/{{$entertainmentSpot->url_xa}}">{{$entertainmentSpot->ward_name}}</a>,
-              <a class="hover:underline" href="/{{$entertainmentSpot->url_huyen}}">{{$entertainmentSpot->district_name}}</a>,
               <a class="hover:underline" href="/{{$entertainmentSpot->url_tinh}}">{{$entertainmentSpot->province_name}}</a>
             </div>
           </div>

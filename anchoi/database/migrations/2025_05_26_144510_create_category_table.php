@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('huyen', function (Blueprint $table) {
+        Schema::create('category', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('province_id')->constrained('tinh')->onDelete('cascade');
             $table->string('slug')->nullable();
-            $table->string('prefix')->default('quan')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('huyen');
+        Schema::dropIfExists('category');
     }
 };

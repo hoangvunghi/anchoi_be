@@ -1,0 +1,488 @@
+{
+    "places": [
+      {
+        "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY",
+        "id": "ChIJoaZlVGNVNDERkp8nRqmZtIY",
+        "types": [
+          "night_club",
+          "karaoke",
+          "bar",
+          "point_of_interest",
+          "establishment"
+        ],
+        "nationalPhoneNumber": "0842 653 222",
+        "internationalPhoneNumber": "+84 842 653 222",
+        "formattedAddress": "L4, 38 TT4-38, Đại Kim, Hoàng Mai, Hà Nội 12345, Việt Nam",
+        "addressComponents": [
+          {
+            "longText": "L4",
+            "shortText": "L4",
+            "types": [
+              "subpremise"
+            ],
+            "languageCode": "vi"
+          },
+          {
+            "longText": "38",
+            "shortText": "38",
+            "types": [
+              "street_number"
+            ],
+            "languageCode": "vi"
+          },
+          {
+            "longText": "TT4-38",
+            "shortText": "TT4-38",
+            "types": [
+              "route"
+            ],
+            "languageCode": "vi"
+          },
+          {
+            "longText": "Kim Văn",
+            "shortText": "Kim Văn",
+            "types": [
+              "neighborhood",
+              "political"
+            ],
+            "languageCode": "vi"
+          },
+          {
+            "longText": "Hoàng Mai",
+            "shortText": "Hoàng Mai",
+            "types": [
+              "administrative_area_level_2",
+              "political"
+            ],
+            "languageCode": "vi"
+          },
+          {
+            "longText": "Hà Nội",
+            "shortText": "Hà Nội",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ],
+            "languageCode": "vi"
+          },
+          {
+            "longText": "Việt Nam",
+            "shortText": "VN",
+            "types": [
+              "country",
+              "political"
+            ],
+            "languageCode": "vi"
+          },
+          {
+            "longText": "12345",
+            "shortText": "12345",
+            "types": [
+              "postal_code"
+            ],
+            "languageCode": "vi"
+          }
+        ],
+        "plusCode": {
+          "globalCode": "7PG7XRH8+35",
+          "compoundCode": "XRH8+35 Hoàng Mai, Hà Nội, Việt Nam"
+        },
+        "location": {
+          "latitude": 20.9777076,
+          "longitude": 105.81545249999999
+        },
+        "viewport": {
+          "low": {
+            "latitude": 20.976358619708503,
+            "longitude": 105.81410351970848
+          },
+          "high": {
+            "latitude": 20.979056580291505,
+            "longitude": 105.8168014802915
+          }
+        },
+        "rating": 5,
+        "googleMapsUri": "https://maps.google.com/?cid=9706552049195786130",
+        "regularOpeningHours": {
+          "openNow": true,
+          "periods": [
+            {
+              "open": {
+                "day": 0,
+                "hour": 0,
+                "minute": 0
+              }
+            }
+          ],
+          "weekdayDescriptions": [
+            "Thứ Hai: Mở cửa cả ngày",
+            "Thứ Ba: Mở cửa cả ngày",
+            "Thứ Tư: Mở cửa cả ngày",
+            "Thứ Năm: Mở cửa cả ngày",
+            "Thứ Sáu: Mở cửa cả ngày",
+            "Thứ Bảy: Mở cửa cả ngày",
+            "Chủ Nhật: Mở cửa cả ngày"
+          ]
+        },
+        "utcOffsetMinutes": 420,
+        "adrFormatAddress": "L4, \u003cspan class=\"street-address\"\u003e38 TT4-38\u003c/span\u003e, \u003cspan class=\"extended-address\"\u003eĐại Kim\u003c/span\u003e, \u003cspan class=\"locality\"\u003eHoàng Mai\u003c/span\u003e, \u003cspan class=\"region\"\u003eHà Nội\u003c/span\u003e \u003cspan class=\"postal-code\"\u003e12345\u003c/span\u003e, \u003cspan class=\"country-name\"\u003eViệt Nam\u003c/span\u003e",
+        "businessStatus": "OPERATIONAL",
+        "userRatingCount": 6,
+        "iconMaskBaseUri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/bar_pinlet",
+        "iconBackgroundColor": "#FF9E67",
+        "displayName": {
+          "text": "KTV VIP",
+          "languageCode": "vi"
+        },
+        "primaryTypeDisplayName": {
+          "text": "Quán bar",
+          "languageCode": "vi"
+        },
+        "takeout": true,
+        "delivery": true,
+        "dineIn": true,
+        "curbsidePickup": true,
+        "currentOpeningHours": {
+          "openNow": true,
+          "periods": [
+            {
+              "open": {
+                "day": 1,
+                "hour": 0,
+                "minute": 0,
+                "truncated": true,
+                "date": {
+                  "year": 2025,
+                  "month": 5,
+                  "day": 26
+                }
+              },
+              "close": {
+                "day": 0,
+                "hour": 23,
+                "minute": 59,
+                "truncated": true,
+                "date": {
+                  "year": 2025,
+                  "month": 6,
+                  "day": 1
+                }
+              }
+            }
+          ],
+          "weekdayDescriptions": [
+            "Thứ Hai: Mở cửa cả ngày",
+            "Thứ Ba: Mở cửa cả ngày",
+            "Thứ Tư: Mở cửa cả ngày",
+            "Thứ Năm: Mở cửa cả ngày",
+            "Thứ Sáu: Mở cửa cả ngày",
+            "Thứ Bảy: Mở cửa cả ngày",
+            "Chủ Nhật: Mở cửa cả ngày"
+          ]
+        },
+        "primaryType": "bar",
+        "shortFormattedAddress": "38 TT4-38, Kim Văn, Đại Kim",
+        "reviews": [
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/reviews/ChZDSUhNMG9nS0VNM3BzSTJ2bHYtR1J3EAE",
+            "relativePublishTimeDescription": "trong tuần trước",
+            "rating": 5,
+            "text": {
+              "text": "Nhân viên rất chu đáo",
+              "languageCode": "vi"
+            },
+            "originalText": {
+              "text": "Nhân viên rất chu đáo",
+              "languageCode": "vi"
+            },
+            "authorAttribution": {
+              "displayName": "Quanghai Dinh",
+              "uri": "https://www.google.com/maps/contrib/115548751810037811279/reviews",
+              "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocJBbw-ycb6OA5ROUmdFD_UUYDZkmgyLuhh4ah-6DabP6uvE=s128-c0x00000000-cc-rp-mo"
+            },
+            "publishTime": "2025-05-23T10:20:20.457168Z",
+            "flagContentUri": "https://www.google.com/local/review/rap/report?postId=ChZDSUhNMG9nS0VNM3BzSTJ2bHYtR1J3EAE&d=17924085&t=1",
+            "googleMapsUri": "https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sChZDSUhNMG9nS0VNM3BzSTJ2bHYtR1J3EAE!2m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/reviews/ChZDSUhNMG9nS0VON2dpWjdocjRpa0NnEAE",
+            "relativePublishTimeDescription": "trong tuần trước",
+            "rating": 5,
+            "text": {
+              "text": "quán hát đẹp",
+              "languageCode": "vi"
+            },
+            "originalText": {
+              "text": "quán hát đẹp",
+              "languageCode": "vi"
+            },
+            "authorAttribution": {
+              "displayName": "Hoài Anh Nguyễn",
+              "uri": "https://www.google.com/maps/contrib/116507194371205830809/reviews",
+              "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjUpmRStDdxEi4m1HCNyQWkYzTpEEZkosp1lpvK33Ahu7qsfyCpn=s128-c0x00000000-cc-rp-mo"
+            },
+            "publishTime": "2025-05-23T10:13:51.083230Z",
+            "flagContentUri": "https://www.google.com/local/review/rap/report?postId=ChZDSUhNMG9nS0VON2dpWjdocjRpa0NnEAE&d=17924085&t=1",
+            "googleMapsUri": "https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sChZDSUhNMG9nS0VON2dpWjdocjRpa0NnEAE!2m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/reviews/ChdDSUhNMG9nS0VQaWxnTHZHbGMtbHpnRRAB",
+            "relativePublishTimeDescription": "trong tuần trước",
+            "rating": 5,
+            "authorAttribution": {
+              "displayName": "Hải Yến Nguyễn",
+              "uri": "https://www.google.com/maps/contrib/100235065969567379010/reviews",
+              "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjXY8UsWi_XeKixVXz0eTCjibhJJsvYHbw8JUfaabMKUBe5_53Iu=s128-c0x00000000-cc-rp-mo"
+            },
+            "publishTime": "2025-05-23T12:36:49.833478Z",
+            "flagContentUri": "https://www.google.com/local/review/rap/report?postId=ChdDSUhNMG9nS0VQaWxnTHZHbGMtbHpnRRAB&d=17924085&t=1",
+            "googleMapsUri": "https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sChdDSUhNMG9nS0VQaWxnTHZHbGMtbHpnRRAB!2m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/reviews/ChZDSUhNMG9nS0VMMmZ6cWJFaF9iQlN3EAE",
+            "relativePublishTimeDescription": "trong tuần trước",
+            "rating": 5,
+            "authorAttribution": {
+              "displayName": "Vu Tuan",
+              "uri": "https://www.google.com/maps/contrib/101755538132339013824/reviews",
+              "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocIRsYV1mRCC1Q_PTf7uimae06_9tfNhhp8h7crfT1DU9wMx0Q=s128-c0x00000000-cc-rp-mo"
+            },
+            "publishTime": "2025-05-23T09:39:14.244440Z",
+            "flagContentUri": "https://www.google.com/local/review/rap/report?postId=ChZDSUhNMG9nS0VMMmZ6cWJFaF9iQlN3EAE&d=17924085&t=1",
+            "googleMapsUri": "https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sChZDSUhNMG9nS0VMMmZ6cWJFaF9iQlN3EAE!2m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/reviews/ChZDSUhNMG9nS0VNdjlsWjZJcG82MllREAE",
+            "relativePublishTimeDescription": "trong tuần trước",
+            "rating": 5,
+            "authorAttribution": {
+              "displayName": "Tam La",
+              "uri": "https://www.google.com/maps/contrib/114022046182749718209/reviews",
+              "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjVC9puv-T_j5XhioUzMwoZkZ2sA3pLmvQx14AoODTyF68k_TJs=s128-c0x00000000-cc-rp-mo"
+            },
+            "publishTime": "2025-05-23T09:39:08.696382Z",
+            "flagContentUri": "https://www.google.com/local/review/rap/report?postId=ChZDSUhNMG9nS0VNdjlsWjZJcG82MllREAE&d=17924085&t=1",
+            "googleMapsUri": "https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sChZDSUhNMG9nS0VNdjlsWjZJcG82MllREAE!2m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          }
+        ],
+        "photos": [
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/photos/AXQCQNSu4Y_5JCKXKhgZuhzvxZFeJbYJbjQe27B23mUT4kR-IfcH1fCDcWroeccnce7rGl9Pu6tee2QLwqJyzwsLB5KZZM5y2S0DBarpKEn96zcBlGJsAPfWhKeCrOIKX2HQUlVYZlohK7MCfbXestCnJyNClS3MuI10s-P7WTUgffgy1nxqgWmYeZnGJXVdfkiUmKWpCslnhtvbt8wWOdJENwR76AYbjtY3zlFWB5kdypB5MkGIDbFRTOAbzmncZt1yPr2bdfgWPdTRJnxXsYQROksc0tEQo6FENaSpVsxX56p0EA",
+            "widthPx": 1276,
+            "heightPx": 956,
+            "authorAttributions": [
+              {
+                "displayName": "KTV VIP",
+                "uri": "https://maps.google.com/maps/contrib/109104452788545545965",
+                "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocIXjLw-WiJ61wIUfgt2Jji_I2iEPcrNS4EBNoif9I_8J-e-Bw=s100-p-k-no-mo"
+              }
+            ],
+            "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipP8Qm7IdybooNK5i4gj2_O5bRWTH-zYOAZ2I-JI&hl=vi",
+            "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipP8Qm7IdybooNK5i4gj2_O5bRWTH-zYOAZ2I-JI!2e10!4m2!3m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/photos/AXQCQNSGZC73IfSYFrE2JziXRCqbrFAGIezCc2UfKNERUNsr6FwQPuDL0po1tZ9r-VcwBbtiroLmMfublNkAi6MocMhXK_g_gG1zGg0nKKlGGeVa4LIMAfBgQ2FyvsHcSUNZE4UqORoIDVg8jSKcyxM1r_kurwJlYqf3uyAQICZ-cOsQmqrshnkj-QouFL00bOimrlL8p_iQTF-GKLiKKfdgq-qKyr3ZkbgULUfycsFA62mxplMEWMPSHW1XD52yhhmaGmPRDU0kgLkT3f5YZ1hVp4_L44HNZvu8xDbbgu_JWYaSlg",
+            "widthPx": 960,
+            "heightPx": 1280,
+            "authorAttributions": [
+              {
+                "displayName": "KTV VIP",
+                "uri": "https://maps.google.com/maps/contrib/109104452788545545965",
+                "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocIXjLw-WiJ61wIUfgt2Jji_I2iEPcrNS4EBNoif9I_8J-e-Bw=s100-p-k-no-mo"
+              }
+            ],
+            "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipOCAcLZ16dYKpjO_2YMJOQ1oP2PAwNycR9CJKn2&hl=vi",
+            "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipOCAcLZ16dYKpjO_2YMJOQ1oP2PAwNycR9CJKn2!2e10!4m2!3m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/photos/AXQCQNQM2ocx0R9n4_uiqBWyWkxkSdCuf_P-yu9RUfLjMQ1MAO8sA7C47xQbKyu3PzEpCm1h0JBBgTE6oeaUb49X8WFITT6YpOtOk8qy8B-2DNKnB6F3gWgf2q6vAhpPjisFaZWyCfjoOJUNBmcssk0Ywjyv8jByCmIEWOVyAjSoduZ1i6vYQ2EUzunTxkObI8Pr0qKcOwzqnf4057T3NgJzqty0jsfgJlq_SpxZ6FNR25s5sheK8jSRSAR3rdCTy1HHjd8276cpSWySJZ-4SdIiBQdNlbmpO9Wo3l7c3paGuou3DA",
+            "widthPx": 1280,
+            "heightPx": 960,
+            "authorAttributions": [
+              {
+                "displayName": "KTV VIP",
+                "uri": "https://maps.google.com/maps/contrib/109104452788545545965",
+                "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocIXjLw-WiJ61wIUfgt2Jji_I2iEPcrNS4EBNoif9I_8J-e-Bw=s100-p-k-no-mo"
+              }
+            ],
+            "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipOF9iNnUwK7g7W97NVMfhRIMqN-63CJtvhCps5v&hl=vi",
+            "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipOF9iNnUwK7g7W97NVMfhRIMqN-63CJtvhCps5v!2e10!4m2!3m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/photos/AXQCQNQcTx867g9pbJQuRBfhbAkP2iUNSxO__PcZKfr_w9xscdUTkZvhIla_R1JX2C5QxXdz0mLeKPCrWEWl7o4EYOR-q2ZeBsC6PQ1WcPae7DXPf3Z2mErCiWTGXRLrXqVnOUVf3IFRIJs0-sQkQ2jYckEV-yN2QRVSdDe3phzgCvj7_tHeTOnbZ_QyLxBSbnAUCSs8htTNRUC98ZjKhvZnjT6rh4NlbUiMr6LISuKKyeyJQbv8HppptLOOC9XLncdooNYIxeTi79yqyH6azAY3Mg9OqcPLZrayyyzHppCNYTPmIA",
+            "widthPx": 1280,
+            "heightPx": 960,
+            "authorAttributions": [
+              {
+                "displayName": "KTV VIP",
+                "uri": "https://maps.google.com/maps/contrib/109104452788545545965",
+                "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocIXjLw-WiJ61wIUfgt2Jji_I2iEPcrNS4EBNoif9I_8J-e-Bw=s100-p-k-no-mo"
+              }
+            ],
+            "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipOt-V0dWgeHI8Em_Ja9POlDG5BqYTWzFqXiEB0Y&hl=vi",
+            "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipOt-V0dWgeHI8Em_Ja9POlDG5BqYTWzFqXiEB0Y!2e10!4m2!3m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/photos/AXQCQNSbLKz96Xsa9YFSsgPlDtbyEIBFTPszeVISxNHxl0WvWZmwDyJblMVjapMEJPHLETFvSsM7urZaGllhJJagv7xP3iut7okaebeuVIAlXacMWwm29nwRyF0KBZvpamJWf2PMyEqs9iGgQtZRN_LcR8Cabj9PCtm5WL8qE1IaroTAgcE2i7cCEfRpNUITWiZyqtlaGRwnMI1hsgRl0GXi1tl0b6fs18mST3E8T5HX1dB-tUTLn3zfq_gLQvnk1P_4oJkl2RbnQDCSSRHjxZOT6BWAuqJj71-OzvaZ2TtV3ZnANA",
+            "widthPx": 960,
+            "heightPx": 1280,
+            "authorAttributions": [
+              {
+                "displayName": "KTV VIP",
+                "uri": "https://maps.google.com/maps/contrib/109104452788545545965",
+                "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocIXjLw-WiJ61wIUfgt2Jji_I2iEPcrNS4EBNoif9I_8J-e-Bw=s100-p-k-no-mo"
+              }
+            ],
+            "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipNhBiOCnvVLgPaEPhLtRlWjNInUknvbiHCRyZXp&hl=vi",
+            "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipNhBiOCnvVLgPaEPhLtRlWjNInUknvbiHCRyZXp!2e10!4m2!3m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          },
+          {
+            "name": "places/ChIJoaZlVGNVNDERkp8nRqmZtIY/photos/AXQCQNRoSnT8VgBxog2aTmiUbiWqFGEwwTKVlFMRmapbZMbkbsG9npsAFpp84x6A4S-xhuW72PZTwCL4z-ogTeLDU8oIkX_vsOQ5ASPw-DbN0Nzs_kdcS3L3-nwUvDI8K0aNs_gDYmAlUYyXhHAG7jkaI33I_GcNKE4nMDZ3igH6hUvrU4o-ffkWuk4EHX-pE4qruFCrQ4wwKM2LJpeCWBKLzp2JM5KWeTAs3cN3CFvE5c5ePxpAHNArFaRr6G35FbIaxeZCkHLZznK775UAsU6UQebW5FIa7kcM-qSSra2hFu2lrg",
+            "widthPx": 960,
+            "heightPx": 1280,
+            "authorAttributions": [
+              {
+                "displayName": "KTV VIP",
+                "uri": "https://maps.google.com/maps/contrib/109104452788545545965",
+                "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocIXjLw-WiJ61wIUfgt2Jji_I2iEPcrNS4EBNoif9I_8J-e-Bw=s100-p-k-no-mo"
+              }
+            ],
+            "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipMenCKq-Mw8LykwaxDESMQlH_8wRspq0NCm3dkT&hl=vi",
+            "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipMenCKq-Mw8LykwaxDESMQlH_8wRspq0NCm3dkT!2e10!4m2!3m1!1s0x313455635465a6a1:0x86b499a946279f92"
+          }
+        ],
+        "restroom": true,
+        "addressDescriptor": {
+          "landmarks": [
+            {
+              "name": "places/ChIJDzXViu-sNTER9Y8RKDVaQ4k",
+              "placeId": "ChIJDzXViu-sNTER9Y8RKDVaQ4k",
+              "displayName": {
+                "text": "Trường Đại học Thăng Long",
+                "languageCode": "vi"
+              },
+              "types": [
+                "establishment",
+                "point_of_interest",
+                "university"
+              ],
+              "straightLineDistanceMeters": 204.2015,
+              "travelDistanceMeters": 256.18002
+            },
+            {
+              "name": "places/ChIJjYBkSu6sNTERanrH1UIlMTE",
+              "placeId": "ChIJjYBkSu6sNTERanrH1UIlMTE",
+              "displayName": {
+                "text": "Trường Mầm Non Đại Kim",
+                "languageCode": "vi"
+              },
+              "types": [
+                "establishment",
+                "point_of_interest",
+                "school"
+              ],
+              "straightLineDistanceMeters": 139.90318,
+              "travelDistanceMeters": 253.58311
+            },
+            {
+              "name": "places/ChIJ0ZTDFpqtNTERgSAhPR42Xm0",
+              "placeId": "ChIJ0ZTDFpqtNTERgSAhPR42Xm0",
+              "displayName": {
+                "text": "Đô thị mới Đại Kim",
+                "languageCode": "vi"
+              },
+              "types": [
+                "establishment",
+                "point_of_interest"
+              ],
+              "spatialRelationship": "ACROSS_THE_ROAD",
+              "straightLineDistanceMeters": 24.826408,
+              "travelDistanceMeters": 4.1606293
+            },
+            {
+              "name": "places/ChIJ6VH1J5StNTERgv0kL8dylbg",
+              "placeId": "ChIJ6VH1J5StNTERgv0kL8dylbg",
+              "displayName": {
+                "text": "Toàn Á JSC",
+                "languageCode": "vi"
+              },
+              "types": [
+                "establishment",
+                "point_of_interest"
+              ],
+              "spatialRelationship": "AROUND_THE_CORNER",
+              "straightLineDistanceMeters": 51.233646,
+              "travelDistanceMeters": 48.350685
+            },
+            {
+              "name": "places/ChIJidNY-uGtNTERDBo5LIgs0Fo",
+              "placeId": "ChIJidNY-uGtNTERDBo5LIgs0Fo",
+              "displayName": {
+                "text": "Tòa Án Nhân Dân Thành Phố Hà Nội",
+                "languageCode": "vi"
+              },
+              "types": [
+                "courthouse",
+                "establishment",
+                "local_government_office",
+                "point_of_interest"
+              ],
+              "straightLineDistanceMeters": 309.97296,
+              "travelDistanceMeters": 568.4209
+            }
+          ],
+          "areas": [
+            {
+              "name": "places/ChIJZRg6afCsNTERtp5hxANXih4",
+              "placeId": "ChIJZRg6afCsNTERtp5hxANXih4",
+              "displayName": {
+                "text": "Kim Văn",
+                "languageCode": "vi"
+              },
+              "containment": "WITHIN"
+            },
+            {
+              "name": "places/ChIJH_f0_PmsNTERhyEpYmxg2Bs",
+              "placeId": "ChIJH_f0_PmsNTERhyEpYmxg2Bs",
+              "displayName": {
+                "text": "Đại Kim",
+                "languageCode": "vi"
+              },
+              "containment": "WITHIN"
+            },
+            {
+              "name": "places/ChIJDzXViu-sNTERy_prq2fW4zw",
+              "placeId": "ChIJDzXViu-sNTERy_prq2fW4zw",
+              "displayName": {
+                "text": "Trường Đại học Thăng Long",
+                "languageCode": "vi"
+              },
+              "containment": "NEAR"
+            }
+          ]
+        },
+        "googleMapsLinks": {
+          "directionsUri": "https://www.google.com/maps/dir//''/data=!4m7!4m6!1m1!4e2!1m2!1m1!1s0x313455635465a6a1:0x86b499a946279f92!3e0",
+          "placeUri": "https://maps.google.com/?cid=9706552049195786130",
+          "writeAReviewUri": "https://www.google.com/maps/place//data=!4m3!3m2!1s0x313455635465a6a1:0x86b499a946279f92!12e1",
+          "reviewsUri": "https://www.google.com/maps/place//data=!4m4!3m3!1s0x313455635465a6a1:0x86b499a946279f92!9m1!1b1",
+          "photosUri": "https://www.google.com/maps/place//data=!4m3!3m2!1s0x313455635465a6a1:0x86b499a946279f92!10e5"
+        },
+        "timeZone": {
+          "id": "Asia/Saigon"
+        },
+        "postalAddress": {
+          "regionCode": "VN",
+          "languageCode": "vi",
+          "postalCode": "12345",
+          "administrativeArea": "Hà Nội",
+          "locality": "Hoàng Mai",
+          "sublocality": "Đại Kim",
+          "addressLines": [
+            "38 TT4-38"
+          ]
+        }
+      }
+    ]
+  }
+  

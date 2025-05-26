@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loai_hinh', function (Blueprint $table) {
+        Schema::create('menu', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('slug')->nullable();
-            $table->string('type')->default('chơi')->nullable();
-            $table->string('type_child')->nullable();
+            $table->foreignId('entertainment_spot_id')->constrained('diem_vui_choi')->onDelete('cascade');
+            $table->string('name');
+            $table->decimal('price', 15, 2)->nullable();
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loai_hinh');
+        Schema::dropIfExists('menu');
     }
 };

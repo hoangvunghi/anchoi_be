@@ -40,16 +40,6 @@
             </div>
         </div>
         <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
-            <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="huyen" name="huyen">
-                <option value="">Chọn quận/huyện</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-            </div>
-        </div>
-        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
             <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="xa-phuong" name="xa-phuong">
                 <option value="">Chọn xã/phường</option>
             </select>
@@ -76,103 +66,139 @@
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const domain = 'http://127.0.0.1:8000';
+
+        // Hàm kiểm tra và xử lý vị trí
+        async function handleLocation() {
+            try {
+                // Kiểm tra vị trí đã lưu trước
+                const response = await fetch(`${domain}/get-location`);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.has_location) {
+                    console.log('Đã có vị trí trong session');
+                    return;
+                }
+
+                // Nếu chưa có vị trí hoặc vị trí đã cũ, yêu cầu vị trí mới
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        position => savePosition(position),
+                        error => console.error('Lỗi khi lấy vị trí:', error),
+                        { enableHighAccuracy: true }
+                    );
+                }
+            } catch (error) {
+                console.error('Lỗi khi kiểm tra vị trí:', error);
+            }
+        }
+
+        // Hàm lưu vị trí
+        function savePosition(position) {
+            fetch(`${domain}/save-location`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log('Vị trí đã được lưu:', data))
+            .catch(error => console.error('Lỗi khi lưu vị trí:', error));
+        }
+
+        // Khởi động xử lý vị trí
+        handleLocation();
+
         const loaiHinhSelect = document.querySelector('.search-select[name="loai-hinh"]');
         const tinhSelect = document.querySelector('.search-select[name="tinh"]');
-        const huyenSelect = document.querySelector('.search-select[name="huyen"]');
         const xaPhuongSelect = document.querySelector('.search-select[name="xa-phuong"]');
-        const domain = 'http://127.0.0.1:8000';
-        // Lấy dữ liệu "Loại hình" từ API
-        fetch(`${domain}/api/v1/entertainment-types`)
-            .then(response => response.json())
+
+        // Disable các select phụ thuộc ban đầu
+        tinhSelect.disabled = true;
+        xaPhuongSelect.disabled = true;
+
+        // Hàm lấy dữ liệu từ localStorage hoặc API
+        async function getDataFromLocalOrAPI(key, apiUrl, expirationHours = 24) {
+            const stored = localStorage.getItem(key);
+            if (stored) {
+                const { data, timestamp } = JSON.parse(stored);
+                const now = new Date().getTime();
+                if (now - timestamp < expirationHours * 60 * 60 * 1000) {
+                    return data;
+                }
+            }
+
+            try {
+                const response = await fetch(`${domain}${apiUrl}`);
+                const data = await response.json();
+                localStorage.setItem(key, JSON.stringify({
+                    data,
+                    timestamp: new Date().getTime()
+                }));
+                return data;
+            } catch (error) {
+                console.error('Error:', error);
+                return [];
+            }
+        }
+
+        // Hàm reset và disable select
+        function resetSelect(select, disable = true, value) {
+            select.innerHTML = `<option value="">Chọn ${value}</option>`;
+            select.disabled = disable;
+        }
+
+        // Load dữ liệu loại hình
+        getDataFromLocalOrAPI('entertainmentTypes', '/api/v1/entertainment-types')
             .then(data => {
                 data.forEach(type => {
                     const option = document.createElement('option');
                     option.value = type.id;
-                    option.id = type.slug; // Sử dụng slug làm id
+                    option.id = type.slug;
                     option.textContent = type.name;
                     loaiHinhSelect.appendChild(option);
                 });
-            })
-            .catch(error => console.error('Error:', error));
+            });
 
-        // Lấy dữ liệu "Tỉnh/thành" từ API
-        fetch(`${domain}/api/v1/provinces`)
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(province => {
-                    const option = document.createElement('option');
-                    option.value = province.id;
-                    option.id = province.slug; // Sử dụng slug làm id
-                    option.textContent = province.name;
-                    tinhSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
+        // Xử lý sự kiện khi chọn loại hình
+        loaiHinhSelect.addEventListener('change', function() {
+            resetSelect(tinhSelect, false, "tỉnh/thành phố");
+            resetSelect(xaPhuongSelect, true, "xã/phường");
 
-        fetch(`${domain}/api/v1/districts`)
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(district => {
-                    const option = document.createElement('option');
-                    option.value = district.id;
-                    option.id = district.slug; // Sử dụng slug làm id
-                    option.textContent = district.name;
-                    huyenSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-
-        // lấy dữ liệu xã/phường
-        fetch(`${domain}/api/v1/wards`)
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(ward => {
-                    const option = document.createElement('option');
-                    option.value = ward.id;
-                    option.id = ward.slug; // Sử dụng slug làm id
-                    option.textContent = ward.name;
-                    xaPhuongSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-
-        tinhSelect.addEventListener('change', function() {
-            const selectedProvince = this.value;
-            huyenSelect.innerHTML = '<option value="">Quận/huyện</option>';
-            xaPhuongSelect.innerHTML = '<option value="">Xã/phường</option>';
-            if (selectedProvince) {
-                fetch(`${domain}/api/v1/districts/province/${selectedProvince}`)
-                    .then(response => response.json())
+            if (this.value) {
+                getDataFromLocalOrAPI('provinces', '/api/v1/provinces')
                     .then(data => {
-                        data.forEach(district => {
+                        data.forEach(province => {
                             const option = document.createElement('option');
-                            option.value = district.id;
-                            option.id = district.slug; // Sử dụng slug làm id
-                            option.textContent = district.name;
-                            huyenSelect.appendChild(option);
+                            option.value = province.id;
+                            option.id = province.slug;
+                            option.textContent = province.name;
+                            tinhSelect.appendChild(option);
                         });
-                    })
-                    .catch(error => console.error('Error:', error));
+                    });
             }
         });
 
-        // Sự kiện khi thay đổi lựa chọn quận/huyện
-        huyenSelect.addEventListener('change', function() {
-            const selectedDistrict = this.value;
-            xaPhuongSelect.innerHTML = '<option value="">Xã/phường</option>';
-            if (selectedDistrict) {
-                fetch(`${domain}/api/v1/wards/district/${selectedDistrict}`)
-                    .then(response => response.json())
+        // Xử lý sự kiện khi chọn tỉnh
+        tinhSelect.addEventListener('change', function() {
+            resetSelect(xaPhuongSelect, false, "xã/phường");
+
+            if (this.value) {
+                getDataFromLocalOrAPI(`wards_${this.value}`, `/api/v1/wards/province/${this.value}`)
                     .then(data => {
                         data.forEach(ward => {
                             const option = document.createElement('option');
                             option.value = ward.id;
-                            option.id = ward.slug; // Sử dụng slug làm id
+                            option.id = ward.slug;
                             option.textContent = ward.name;
                             xaPhuongSelect.appendChild(option);
                         });
-                    })
-                    .catch(error => console.error('Error:', error));
+                    });
             }
         });
     });
@@ -180,14 +206,11 @@
     function timKiem() {
         const loaiHinhSelect = document.getElementById('loai-hinh');
         const tinhSelect = document.getElementById('tinh');
-        const huyenSelect = document.getElementById('huyen');
         const xaPhuongSelect = document.getElementById('xa-phuong');
 
         const loaiHinh = loaiHinhSelect.options[loaiHinhSelect.selectedIndex].id;
         const tinh = tinhSelect.options[tinhSelect.selectedIndex].id;
-        const huyen = huyenSelect.options[huyenSelect.selectedIndex].id;
         const xaPhuong = xaPhuongSelect.options[xaPhuongSelect.selectedIndex].id;
-        console.log(loaiHinh, tinh, huyen, xaPhuong);
 
         let newUrl = '';
         if (loaiHinh) {
@@ -195,9 +218,6 @@
         }
         if (tinh) {
             newUrl += `-${tinh}`;
-        }
-        if (huyen) {
-            newUrl += `-${huyen}`;
         }
         if (xaPhuong) {
             newUrl += `-${xaPhuong}`;
