@@ -102,13 +102,33 @@ class EntertainmentSpotController extends Controller
             ]);
         }
 
+        $typeLabel = ['ăn' => 'ăn uống', 'chơi' => 'vui chơi giải trí'][$typeValue] ?? null;
+
         return view('searchResult', [
             'entertainmentSpots' => $items,
             'pageTitle' => $pageTitle,
             'title' => $title,
+            'intro' => $this->spotListIntro($typeLabel, null, null, $paginator->total()),
             'nextPageUrl' => $nextAjax,
             'nextPagePlain' => $paginator->hasMorePages() ? $paginator->nextPageUrl() : null,
         ]);
+    }
+
+    /**
+     * Đoạn giới thiệu unique cho mỗi trang danh sách (programmatic SEO):
+     * keyword-rich theo loại hình + khu vực + số lượng.
+     */
+    private function spotListIntro(?string $type, ?string $province, ?string $ward, int $count): string
+    {
+        $place = trim(($ward ? $ward . ', ' : '') . ($province ?? ''), ', ');
+        $what = $type ? ('địa điểm ' . $type) : 'địa điểm ăn chơi';
+        $where = $place ? (' tại ' . $place) : ' trên khắp Việt Nam';
+        $n = $count > 0 ? $count . ' ' : '';
+
+        return "Khám phá {$n}{$what}{$where} được tuyển chọn và cập nhật liên tục. "
+            . "Mỗi địa điểm đều có đầy đủ địa chỉ, số điện thoại, giờ mở cửa, bản đồ chỉ đường và đánh giá từ cộng đồng, "
+            . "giúp bạn nhanh chóng tìm được nơi phù hợp nhất. "
+            . "Bạn có thể lọc theo khu vực, loại hình hoặc tìm ngay " . ($type ?: 'địa điểm') . " gần bạn nhất.";
     }
     public function store(Request $request)
     {
@@ -365,6 +385,7 @@ class EntertainmentSpotController extends Controller
             'entertainmentSpots' => $this->transformEntertainmentSpots($paginator->getCollection()),
             'pageTitle' => $pageTitle,
             'title' => $title,
+            'intro' => $this->spotListIntro($loaiHinhName, $tinhName ?? null, $xaPhuongName ?? null, $paginator->total()),
             'nextPageUrl' => $paginator->hasMorePages() ? $paginator->nextPageUrl() : null,
         ]);
     }
@@ -382,6 +403,7 @@ class EntertainmentSpotController extends Controller
         $entertainmentSpots = $data->entertainmentSpots;
         $pageTitle = $data->pageTitle ?? '';
         $title = $data->title ?? '';
+        $intro = $data->intro ?? null;
         $nextPagePlain = $data->nextPageUrl ?? null;
         $nextPageUrl = $nextPagePlain ? $nextPagePlain . '&ajax=1' : null;
 
@@ -392,7 +414,7 @@ class EntertainmentSpotController extends Controller
             ]);
         }
 
-        return view("searchResult", compact("entertainmentSpots", "pageTitle", "title", "nextPageUrl", "nextPagePlain"));
+        return view("searchResult", compact("entertainmentSpots", "pageTitle", "title", "intro", "nextPageUrl", "nextPagePlain"));
     }
 
     public function getLastId()

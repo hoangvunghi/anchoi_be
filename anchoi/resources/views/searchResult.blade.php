@@ -14,6 +14,9 @@
 
     <section class="py-6">
         <h2 class="text-2xl font-bold tracking-tight">{{ $title }}</h2>
+        @if (!empty($intro))
+            <p class="mt-2 max-w-3xl text-gray-500 dark:text-gray-400">{{ $intro }}</p>
+        @endif
 
         <div id="spot-grid" data-next="{{ $nextPageUrl ?? '' }}"
              class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
