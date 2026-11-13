@@ -1,3 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    /* Hero + thanh tìm kiếm */
+    .hero-banner {
+        @apply bg-gradient-to-br from-brand-600 via-brand-500 to-fuchsia-500 shadow-lg;
+    }
+    .hero-banner::after {
+        content: "";
+        @apply absolute inset-0 opacity-20 pointer-events-none;
+        background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,.4) 0, transparent 40%),
+                          radial-gradient(circle at 80% 0%, rgba(255,255,255,.25) 0, transparent 35%);
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 font-semibold text-white
+               transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2;
+    }
+    .btn-ghost {
+        @apply inline-flex items-center justify-center rounded-lg border border-brand-100 bg-white px-4 py-2.5
+               font-semibold text-brand-600 transition hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-500;
+    }
+
+    .search-select {
+        @apply w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2.5 pr-9 text-gray-800
+               transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500
+               disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400;
+    }
+    .select-caret {
+        @apply pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 fill-current text-gray-500;
+    }
+
+    /* Thẻ địa điểm dùng chung */
+    .spot-card {
+        @apply overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/5 transition duration-300
+               hover:-translate-y-1 hover:shadow-xl dark:bg-gray-800 dark:ring-white/10;
+    }
+}
+
+body {
+    @apply font-sans antialiased;
+}
+
+/* Scroll-reveal: class .reveal CHỈ được JS gắn vào -> nếu không JS/crawler thì nội dung vẫn hiện (SEO-safe) */
+.reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .5s ease, transform .5s ease;
+    will-change: opacity, transform;
+}
+.reveal.in {
+    opacity: 1;
+    transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal.in {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* Thanh loading mảnh khi chuyển trang */
+#route-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(to right, theme('colors.brand.600'), theme('colors.fuchsia.500'));
+    z-index: 9999;
+    transition: width .3s ease, opacity .3s ease;
+    pointer-events: none;
+}

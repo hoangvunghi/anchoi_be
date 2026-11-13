@@ -13,6 +13,8 @@ use App\Models\Ward;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Badge;
+use App\Nova\Actions\ChangeSpotStatus;
 use Laravel\Nova\Fields\FormData;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -35,7 +37,7 @@ class EntertainmentSpot extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -43,8 +45,13 @@ class EntertainmentSpot extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name', 'full_address', 'phone_number',
     ];
+
+    /**
+     * Eager-load để tránh N+1 trên bảng index.
+     */
+    public static $with = ['entertainmentType', 'ward'];
 
     /**
      * Get the fields displayed by the resource.
@@ -61,11 +68,13 @@ class EntertainmentSpot extends Resource
                 ->rules('required', 'max:255'),
 
             BelongsTo::make('Entertainment Type')
-                ->sortable(),
+                ->sortable()
+                ->filterable(),
 
                 BelongsTo::make('Ward')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->filterable(),
                     
             Text::make('Full Address')
                 ->nullable(),
@@ -98,6 +107,16 @@ class EntertainmentSpot extends Resource
                 ->nullable(),
             Text::make("opening_hours")
             ->rules('required'),
+            Badge::make('Status')
+                ->map([
+                    'pending' => 'warning',
+                    'approved' => 'success',
+                    'rejected' => 'danger',
+                ])
+                ->sortable()
+                ->filterable()
+                ->onlyOnIndex(),
+
             Select::make('Status')
                 ->options([
                     'pending' => 'Pending',
@@ -105,7 +124,9 @@ class EntertainmentSpot extends Resource
                     'rejected' => 'Rejected',
                 ])
                 ->displayUsingLabels()
-                ->rules('required'),
+                ->default('pending')
+                ->rules('required')
+                ->hideFromIndex(),
             Number::make(__('Average Rating'), 'average_rating')
             ->readonly() // Chỉ cho phép xem
             ->sortable(),
@@ -164,6 +185,10 @@ class EntertainmentSpot extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            (new ChangeSpotStatus('approved', 'Duyệt địa điểm'))->showInline(),
+            (new ChangeSpotStatus('rejected', 'Từ chối'))->showInline(),
+            (new ChangeSpotStatus('pending', 'Chuyển về chờ duyệt')),
+        ];
     }
 }

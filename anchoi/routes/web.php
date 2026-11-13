@@ -7,6 +7,12 @@ use App\Http\Controllers\Base;
 use App\Http\Controllers\BlogController;
 
 
+use App\Http\Controllers\SitemapController;
+
+// Phải đặt TRƯỚC route catch-all /{params}
+Route::get('/sitemap.xml', [SitemapController::class, 'sitemap']);
+Route::get('/robots.txt', [SitemapController::class, 'robots']);
+
 Route::get('/all', [EntertainmentSpotController::class, 'index_all']);
 Route :: get ('/blog', [BlogController :: class, 'indexRender']);
 Route :: get ('/blog/{slug}', [BlogController :: class, 'getBlogBySlugRender']);

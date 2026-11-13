@@ -1,449 +1,294 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ăn chơi nét</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9InctOCBoLTgiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0yMC4yIDIwLjJjMi4wNC0yLjAzLjAyLTcuMzYtNC41LTExLjktNC41NC00LjUyLTkuODctNi41NC0xMS45LTQuNS0yLjA0IDIuMDMtLjAyIDcuMzYgNC41IDExLjkgNC41NCA0LjUyIDkuODcgNi41NCAxMS45IDQuNVoiPjwvcGF0aD48cGF0aCBkPSJNMTUuNyAxNS43YzQuNTItNC41NCA2LjU0LTkuODcgNC41LTExLjktMi4wMy0yLjA0LTcuMzYtLjAyLTExLjkgNC41LTQuNTIgNC41NC02LjU0IDkuODctNC41IDExLjkgMi4wMyAyLjA0IDcuMzYgLjAyIDExLjktNC41WiI+PC9wYXRoPjwvc3ZnPg==" type="image/svg+xml">
+@section('title', $entertainmentSpot->name . ' - ' . $titlePage . ' | Ăn chơi nét')
+@section('description', Str::limit(strip_tags($entertainmentSpot->description), 155))
+@section('og_image', url('/' . $entertainmentSpot->banner_image))
 
-  <script type="application/ld+json">
-    @php
-    echo json_encode($entertainmentSpot -> header);
-    @endphp
-  </script>
-</head>
+@push('head')
+    <script type="application/ld+json">@php echo json_encode($entertainmentSpot->header); @endphp</script>
+@endpush
 
-<body class="bg-gray-100 dark:bg-gray-900">
-
-
-  <header class="bg-white dark:bg-gray-800 py-4 shadow-md fixed top-0 left-0 w-full z-50">
-    <div class="container mx-auto px-4 flex justify-between items-center">
-      <a href="/" class="logo cursor-pointer flex items-center flex-row gap-2">
-        <!-- Logo and Text -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
-          <circle cx="12" cy="12" r="1"></circle>
-          <path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"></path>
-          <path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"></path>
-        </svg>
-        <p class="text-xl font-semibold">Ăn chơi nét</p>
-      </a>
-
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:flex space-x-6">
-        <a href="/" class="text-gray-800 dark:text-white hover:underline">Trang chủ</a>
-        <a href="/club" class="text-gray-800 dark:text-white hover:underline">Club</a>
-        <a href="/karaoke" class="text-gray-800 dark:text-white hover:underline">Karaoke</a>
-        <a href="/bar" class="text-gray-800 dark:text-white hover:underline">Bar</a>
-        <a href="/nha-hang" class="text-gray-800 dark:text-white hover:underline">Nhà hàng</a>
-        <a href="/blog" class="text-gray-800 dark:text-white hover:underline">Blog</a>
-        <a href="/contact" class="text-gray-800 dark:text-white hover:underline">Liên hệ</a>
-      </nav>
-
-      <!-- Mobile Menu Button -->
-      <button id="menu-toggle" class="md:hidden" aria-label="Toggle Navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-6 h-6 text-gray-800 dark:text-white">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Mobile Navigation -->
-    <nav id="mobile-menu" class="hidden md:hidden flex flex-col space-y-4 px-4 pb-4 bg-white dark:bg-gray-800 shadow-md">
-      <a href="/" class="text-gray-800 dark:text-white hover:underline">Trang chủ</a>
-      <a href="/club" class="text-gray-800 dark:text-white hover:underline">Club</a>
-      <a href="/karaoke" class="text-gray-800 dark:text-white hover:underline">Karaoke</a>
-      <a href="/bar" class="text-gray-800 dark:text-white hover:underline">Bar</a>
-      <a href="/nha-hang" class="text-gray-800 dark:text-white hover:underline">Nhà hàng</a>
-      <a href="/blog" class="text-gray-800 dark:text-white hover:underline">Blog</a>
-      <a href="/contact" class="text-gray-800 dark:text-white hover:underline">Liên hệ</a>
-    </nav>
-  </header>
-  <div class="flex flex-row  pt-20">
-    <div class="w-full md:w-9/12 ">
-      <div class="py-4 space-y-3 ml-4 mr-4">
-        <nav aria-label="breadcrumb">
-          <ol class="flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
-            <li class="inline-flex items-center gap-1.5">
-              <a class="transition-colors hover:text-foreground" href="/">Trang chủ</a>
-            </li>
-            <li role="presentation" aria-hidden="true" class="[&>svg]:size-3.5">
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
-              </svg>
-            </li>
-            <li class="inline-flex items-center gap-1.5">
-              <span role="link" aria-disabled="true" aria-current="page" class="font-normal text-foreground">{{$titlePage}}</span>
-            </li>
+@section('content')
+  <div class="flex flex-col gap-6 md:flex-row">
+    <div class="w-full md:w-9/12">
+      <div class="space-y-3">
+        <nav aria-label="breadcrumb" class="text-sm text-gray-500">
+          <ol class="flex flex-wrap items-center gap-2">
+            <li><a class="hover:text-brand-600" href="/">Trang chủ</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-gray-700 dark:text-gray-300">{{ $titlePage }}</li>
           </ol>
         </nav>
-        <div class="flex flex-row items-end gap-4">
-          <p class="text-2xl font-semibold">{{$titlePage}}</p>
-        </div>
-        <div class="py-4 font-semibold border-y flex flex-row gap-8">
+
+        <h1 class="text-2xl font-bold tracking-tight">{{ $titlePage }}</h1>
+
+        <div class="flex flex-row flex-wrap gap-8 border-y border-gray-200 py-4 font-semibold dark:border-gray-700">
           <div class="flex flex-col gap-2">
-            <span>Số điện thoại</span>
-            <span>{{$entertainmentSpot->phone_number}}</span>
+            <span class="text-gray-500">Số điện thoại</span>
+            <span>{{ $entertainmentSpot->phone_number }}</span>
           </div>
           <div class="flex flex-col gap-2">
-            <span>Địa điểm</span>
+            <span class="text-gray-500">Địa điểm</span>
             <div class="inline-block">
-              <a class="hover:underline" href="/{{$entertainmentSpot->url_xa}}">{{$entertainmentSpot->ward_name}}</a>,
-              <a class="hover:underline" href="/{{$entertainmentSpot->url_tinh}}">{{$entertainmentSpot->province_name}}</a>
+              <a class="hover:text-brand-600 hover:underline" href="/{{ $entertainmentSpot->url_xa }}">{{ $entertainmentSpot->ward_name }}</a>,
+              <a class="hover:text-brand-600 hover:underline" href="/{{ $entertainmentSpot->url_tinh }}">{{ $entertainmentSpot->province_name }}</a>
             </div>
           </div>
           <div class="flex flex-col gap-2">
-            <span>Loại hình</span>
-            <a class="hover:underline" href="/nearest/{{$entertainmentSpot->entertainment_type_slug}}">{{$entertainmentSpot->entertainment_type_name}}</a>
+            <span class="text-gray-500">Loại hình</span>
+            <a class="hover:text-brand-600 hover:underline" href="/nearest/{{ $entertainmentSpot->entertainment_type_slug }}">{{ $entertainmentSpot->entertainment_type_name }}</a>
           </div>
-        </div>
-        <img src="/{{$entertainmentSpot->banner_image}}" alt="Product Image" class="w-full group-hover:scale-[1.05] transition-all duration-500 h-64 object-cover" />
-        <div class="py-3 border-t mt-4">
-          <p class="text-lg font-semibold mb-2">Thông tin chi tiết</p>
-          <div>
-            {!!$entertainmentSpot->description!!}
-          </div>
-          <p class="font-semibold">Địa chỉ: {{$entertainmentSpot->full_address}}</p>
         </div>
 
-        <div class="border-t py-4">
-          <p class="text-lg font-semibold mb-2">Thông tin liên hệ</p>
-          <div class="flex flex-row gap-8">
+        <img src="/{{ $entertainmentSpot->banner_image }}" alt="{{ $entertainmentSpot->name }}" class="h-64 w-full rounded-xl object-cover" />
+
+        <div class="mt-4 border-t border-gray-200 py-3 dark:border-gray-700">
+          <h2 class="mb-2 text-lg font-semibold">Thông tin chi tiết</h2>
+          <div class="leading-relaxed text-gray-700 dark:text-gray-200">{!! $entertainmentSpot->description !!}</div>
+          <p class="mt-2 font-semibold">Địa chỉ: {{ $entertainmentSpot->full_address }}</p>
+        </div>
+
+        <div class="border-t border-gray-200 py-4 dark:border-gray-700">
+          <h2 class="mb-2 text-lg font-semibold">Thông tin liên hệ</h2>
+          <div class="flex flex-row flex-wrap gap-8">
             <div class="flex flex-col gap-2">
-              <span>Họ tên</span>
-              <span class="font-semibold">{{$entertainmentSpot->name_of_owner}}</span>
+              <span class="text-gray-500">Họ tên</span>
+              <span class="font-semibold">{{ $entertainmentSpot->name_of_owner }}</span>
             </div>
             <div class="flex flex-col gap-2">
-              <span>Số điện thoại</span>
-              <span class="font-semibold">{{$entertainmentSpot->phone_number}}</span>
+              <span class="text-gray-500">Số điện thoại</span>
+              <span class="font-semibold">{{ $entertainmentSpot->phone_number }}</span>
             </div>
           </div>
         </div>
 
-
-        <div class="py-3 border-t mt-4">
-          <p class="text-lg font-semibold mb-2">Địa điểm liên quan</p>
-          <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 sm:grid-cols-2 max-[450px]:grid-cols-1"> 
+        <div class="mt-4 border-t border-gray-200 py-3 dark:border-gray-700">
+          <h2 class="mb-2 text-lg font-semibold">Địa điểm liên quan</h2>
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach ($realtedEntertainmentSpots as $relatedSpot)
-            <a class="overflow-hidden group cursor-pointer" href="/{{$relatedSpot->url}}">
-              <div class="rounded-xl border bg-card text-card-foreground shadow">
-                <div class="w-full h-64 relative">
-                  <img src="/{{ $relatedSpot->banner_image }}" alt="{{ $relatedSpot->name }}" class="absolute inset-0 object-cover w-full h-full" />
+              <a class="group spot-card" href="/{{ $relatedSpot->url }}">
+                <div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                  <img src="/{{ $relatedSpot->banner_image }}" alt="{{ $relatedSpot->name }}" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                 </div>
-                <div class="px-4 py-2 space-y-1">
-                  <p class="font-semibold line-clamp-1 text-ellipsis text-xl">{{ Str::limit($relatedSpot->name, 20, '...') }}</p>
-                  <p class="text-muted-foreground line-clamp-1 text-ellipsis text-sm">Địa điểm: {{ Str::limit($relatedSpot->full_address, 20, '...') }}</p>
-                  <p class="text-muted-foreground line-clamp-1 text-ellipsis text-sm">Số điện thoại: {{$relatedSpot->phone_number}}</p>
-                  <p class="text-muted-foreground line-clamp-1 text-ellipsis text-sm">Khu vực: {{$relatedSpot->ward_name}}</p>
+                <div class="p-4">
+                  <h3 class="line-clamp-1 font-semibold">{{ Str::limit($relatedSpot->name, 20) }}</h3>
+                  <p class="line-clamp-1 text-sm text-gray-500">Khu vực: {{ $relatedSpot->ward_name }}</p>
                 </div>
-              </div>
-            </a>
+              </a>
             @endforeach
           </div>
-        </div> 
+        </div>
       </div>
     </div>
-    <div class="w-3/12 hidden md:block"> 
-  <div class="bg-gray-900 rounded-lg p-4  fixed flex flex-col items-center"> 
-    <p class="text-white text-xl font-bold mb-2 text-center">{{$entertainmentSpot->name}}</p>
-    <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg mb-2 text-center">{{$entertainmentSpot->phone_number}}</button>
-    <p class="text-white text-sm mb-2 text-center">Liên hệ ngay để được đặt chỗ trước và tư vấn miễn phí</p>
-    <div class="border-t border-gray-700 pt-2 mb-2">
-      <p class="text-white text-sm">Giờ hoạt động: {{$entertainmentSpot->opening_hours}}</p>
-    </div>
-    <div class="border-t border-gray-700 pt-2">
-      <p class="text-white text-sm">Thông tin thêm:{{$entertainmentSpot->additional_info}}</p> 
-    </div>
-  </div> 
-</div> 
-  </div>
-  <div class="w-full md:w-9/12 ">
 
-  <div class="py-3 border-t mt-4 ml-4">
-    <p class="text-lg font-semibold mb-2">Đánh giá & bình luận</p>
-    <div class="flex flex-row items-center gap-2">
+    {{-- Sidebar liên hệ (card tối) --}}
+    <aside class="w-full md:w-3/12">
+      <div class="rounded-xl border border-gray-700 bg-gradient-to-br from-gray-800 to-gray-900 p-6 shadow-2xl md:sticky md:top-24">
+        <div class="mb-6 text-center">
+          <h3 class="mb-2 text-xl font-bold text-white">{{ $entertainmentSpot->name }}</h3>
+          @if($entertainmentSpot->average_rating > 0)
+            <div class="mb-2 flex items-center justify-center gap-1">
+              @for ($i = 1; $i <= 5; $i++)
+                <svg class="h-4 w-4 fill-current {{ $i <= $entertainmentSpot->average_rating ? 'text-yellow-400' : 'text-gray-500' }}" viewBox="0 0 20 20">
+                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                </svg>
+              @endfor
+              <span class="ml-2 text-sm text-gray-300">({{ $entertainmentSpot->average_rating }}/5)</span>
+            </div>
+          @endif
+        </div>
+
+        <a href="tel:{{ $entertainmentSpot->phone_number }}" class="mb-4 block w-full rounded-lg bg-gradient-to-r from-red-500 to-red-600 px-4 py-3 text-center font-bold text-white shadow-lg transition hover:from-red-600 hover:to-red-700">
+          📞 {{ $entertainmentSpot->phone_number }}
+        </a>
+
+        @php
+          $additionalInfo = json_decode($entertainmentSpot->additional_info, true);
+          $openingHours = $additionalInfo['opening_hours'] ?? [];
+          $hasCoords = (float) $entertainmentSpot->latitude != 0 && (float) $entertainmentSpot->longitude != 0;
+          $destination = $hasCoords
+            ? $entertainmentSpot->latitude . ',' . $entertainmentSpot->longitude
+            : trim(($entertainmentSpot->full_address ?? '') . ', ' . ($entertainmentSpot->ward_name ?? '') . ', ' . ($entertainmentSpot->province_name ?? ''), ', ');
+          $directionsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($destination);
+        @endphp
+
+        <a href="{{ $directionsUrl }}" target="_blank" rel="noopener"
+           class="mb-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+          </svg>
+          Chỉ đường
+        </a>
+
+        @if(!empty($openingHours['weekday_descriptions']))
+          <div class="border-t border-gray-700 pt-4 text-xs text-gray-300">
+            <h4 class="mb-2 text-sm font-semibold text-white">Giờ hoạt động</h4>
+            @foreach(array_slice($openingHours['weekday_descriptions'], 0, 3) as $day)
+              <p>{{ $day }}</p>
+            @endforeach
+          </div>
+        @endif
+
+        @if(!empty($additionalInfo['website']) || !empty($additionalInfo['google_maps_uri']))
+          <div class="mt-4 space-y-2 border-t border-gray-700 pt-4 text-xs">
+            @if(!empty($additionalInfo['website']))
+              <a href="{{ $additionalInfo['website'] }}" target="_blank" rel="noopener" class="block truncate text-blue-400 hover:text-blue-300">🌐 Website</a>
+            @endif
+            @if(!empty($additionalInfo['google_maps_uri']))
+              <a href="{{ $additionalInfo['google_maps_uri'] }}" target="_blank" rel="noopener" class="block truncate text-blue-400 hover:text-blue-300">📍 Xem trên Google Maps</a>
+            @endif
+          </div>
+        @endif
+      </div>
+    </aside>
+  </div>
+
+  {{-- Đánh giá & bình luận --}}
+  <section class="mt-6 border-t border-gray-200 pt-6 dark:border-gray-700 md:w-9/12">
+    <h2 class="mb-2 text-lg font-semibold">Đánh giá &amp; bình luận</h2>
+    <div class="mb-4 flex items-center gap-2">
       Số sao trung bình:
-      <div class="flex flex-row font-semibold items-center gap-1 text-yellow-500">
+      <span class="flex items-center gap-1 font-semibold text-yellow-500">
         {{ $entertainmentSpot->average_rating }}
         @for ($i = 0; $i < 5; $i++)
-          @if ($i < $entertainmentSpot->average_rating)
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 fill-yellow-400 stroke-yellow-400">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 {{ $i < $entertainmentSpot->average_rating ? 'fill-yellow-400 stroke-yellow-400' : 'fill-none stroke-gray-400' }}" stroke-width="2">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
           </svg>
-          @else
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 stroke-gray-400">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-          </svg>
-          @endif
-          @endfor
-      </div>
+        @endfor
+      </span>
     </div>
-    <div>
-      <div id="comment-container" class="max-h-[500px] overflow-y-auto relative divide-y scroll-custom">
-        <!-- Comment sẽ được hiển thị ở đây -->
-      </div>
 
-      <div class="border mt-2 rounded-md p-4">
-        <form id="comment-form" class="space-y-2">
-          @csrf
-          <input type="hidden" name="entertainment_spot_id" value="{{ $entertainmentSpot->id }}">
-          <input type="hidden" name="parent_id" value="">
-          <div class="space-y-1">
-            <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="name">Name</label>
-            <input class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" placeholder="Name/Unit" id="name" aria-describedby="name-description" aria-invalid="false" name="name" value="" required />
-          </div>
-          <div class="space-y-1">
-            <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="email">Email</label>
-            <input type="email" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" placeholder="Email..." id="email" aria-describedby="email-description" aria-invalid="false" name="email" value="" required />
-          </div>
-          <div class="space-y-1">
-            <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="body">Message</label>
-            <textarea class="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" placeholder="Message..." name="body" id="body" aria-describedby="body-description" aria-invalid="false" required></textarea>
-          </div>
-          <div class="space-y-2">
-            <label class="text-sm font-medium leading-none" for="number_of_star">Rating</label>
-            <div role="radiogroup" aria-required="false" dir="ltr" class="flex flex-row gap-8 flex-wrap" id="number_of_star" aria-describedby="number_of_star-description" aria-invalid="false" tabindex="-1" style="outline:none">
-              @for ($i = 1; $i <= 5; $i++)
-                <div class="flex flex-row items-center gap-2">
-                <input type="radio" id="star-{{$i}}" name="number_of_star" value="{{$i}}" class="cursor-pointer aspect-square h-6 w-6 rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-500" @if ($i==5) checked @endif required>
-                <label class="text-sm font-medium leading-none" for="star-{{$i}}">{{$i}} Star</label>
-            </div>
-            @endfor
-          </div>
-      </div>
-      <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-black text-white shadow hover:bg-gray-800 h-9 px-4 py-2 mt-2" type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-  </div>
-  </div>
+    <div id="comment-container" class="max-h-[500px] divide-y overflow-y-auto"></div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const menuToggle = document.getElementById('menu-toggle');
-      const mobileMenu = document.getElementById('mobile-menu');
-
-      menuToggle.addEventListener('click', function() {
-        mobileMenu.classList.toggle('hidden');
-      });
-    });
-
-    function requestLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            // Gửi dữ liệu vị trí lên server (AJAX)
-            fetch('/save-location', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                  latitude,
-                  longitude
-                })
-              })
-              .then(response => response.json())
-              .then(data => {
-                console.log("Vị trí đã được lưu vào session.");
-                // Chuyển hướng đến trang phù hợp (nếu cần)
-              })
-              .catch(error => {
-                console.error("Lỗi khi lưu vị trí vào session:", error);
-                alert("Có lỗi xảy ra khi lưu vị trí. Vui lòng thử lại sau.");
-              });
-          },
-          (error) => {
-            console.error('Lỗi khi lấy vị trí:', error);
-            alert('Vui lòng cho phép truy cập vị trí của bạn.');
-          }
-        );
-      } else {
-        alert('Trình duyệt của bạn không hỗ trợ Geolocation.');
-      }
-    }
-
-    // Gọi hàm requestLocation khi trang được tải
-    window.addEventListener('load', requestLocation);
-    // Function để hiển thị comment
-    function displayComments(comments) {
-      const commentContainer = document.getElementById('comment-container');
-      commentContainer.innerHTML = ''; // Xóa comment cũ trước khi hiển thị
-
-      comments.forEach(comment => {
-        // Tạo HTML cho comment cha
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('comment', 'py-4', 'relative');
-        commentElement.innerHTML = `
-  <div class="flex flex-row items-start gap-4">
-    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg font-semibold">${comment.name.charAt(0)}</div>
-    <div class="flex-1">
-      <div class="flex items-start gap-4"> <div>
-          <div class="flex items-center gap-4">
-            <p class="font-semibold">${comment.name}</p>
-            <div class="flex flex-row font-semibold items-center gap-1 text-yellow-500">
-              ${displayStars(comment.number_of_star)}
-              (${comment.number_of_star})
-            </div>
-          </div>
-          <p class="text-sm text-gray-500">${comment.email}</p>
-        </div>
-      </div>
-      <p class="mt-2">${comment.body}</p>
-      <button class="reply-button text-blue-500 hover:underline mt-2" data-comment-id="${comment.id}" data-comment-name="${comment.name}">Trả lời</button>
-    </div>
-  </div>
-`;
-
-        // Hiển thị comment con (nếu có)
-        if (comment.replies && comment.replies.length > 0) {
-          const repliesElement = document.createElement('div');
-          repliesElement.classList.add('replies', 'ml-16', 'mt-4');
-          comment.replies.forEach(reply => {
-            const replyElement = document.createElement('div');
-            replyElement.classList.add('reply', 'py-2', 'relative');
-            replyElement.innerHTML = `
-            <div class="flex flex-row items-start gap-4">
-              <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-lg font-semibold">${reply.name.charAt(0)}</div>
-              <div class="flex-1">
-                <div>
-                  <p class="font-semibold">${reply.name}</p>
-                  <p class="text-sm text-gray-500">${reply.email}</p>
-                </div>
-                <p class="mt-1">${reply.body}</p>
-              </div>
-            </div>
-          `;
-            repliesElement.appendChild(replyElement);
-          });
-          commentElement.appendChild(repliesElement);
-        }
-
-        commentContainer.appendChild(commentElement);
-
-        // Thêm event listener cho nút "Trả lời" sau khi comment được thêm vào DOM
-        const replyButton = commentElement.querySelector('.reply-button');
-        replyButton.addEventListener('click', (event) => {
-          handleReplyClick(event);
-        });
-      });
-    }
-
-    // Function để hiển thị sao
-    function displayStars(rating) {
-      let starsHTML = '';
-      for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-          starsHTML += `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 fill-yellow-400 stroke-yellow-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
-        } else {
-          starsHTML += `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 stroke-gray-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
-        }
-      }
-      return starsHTML;
-    }
-
-    // Xử lý click nút "Trả lời"
-    function handleReplyClick(event) {
-      const commentId = event.target.dataset.commentId;
-      const commentName = event.target.dataset.commentName;
-
-      const replyForm = `
-      <form class="reply-form space-y-2 mt-4 ml-16" data-comment-id="${commentId}">
+    <div class="mt-2 rounded-xl border border-gray-200 p-4 dark:border-gray-700">
+      <form id="comment-form" class="space-y-3">
         @csrf
         <input type="hidden" name="entertainment_spot_id" value="{{ $entertainmentSpot->id }}">
-        <input type="hidden" name="parent_id" value="${commentId}">
+        <input type="hidden" name="parent_id" value="">
         <div class="space-y-1">
-          <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="name">Name</label>
-          <input class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" placeholder="Name/Unit" id="name" aria-describedby="name-description" aria-invalid="false" name="name" value="" required/>
+          <label class="text-sm font-medium" for="name">Tên</label>
+          <input class="search-select" placeholder="Tên của bạn" id="name" name="name" required />
         </div>
         <div class="space-y-1">
-          <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="email">Email</label>
-          <input type="email" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" placeholder="Email..." id="email" aria-describedby="email-description" aria-invalid="false" name="email" value="" required/>
+          <label class="text-sm font-medium" for="email">Email</label>
+          <input type="email" class="search-select" placeholder="Email..." id="email" name="email" required />
         </div>
         <div class="space-y-1">
-          <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="body">Message</label>
-          <textarea class="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" placeholder="Message..." name="body" id="body" aria-describedby="body-description" aria-invalid="false" required></textarea>
+          <label class="text-sm font-medium" for="body">Nội dung</label>
+          <textarea class="search-select min-h-[80px]" placeholder="Viết đánh giá..." name="body" id="body" required></textarea>
         </div>
-        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 mt-2" type="submit">Trả lời ${commentName}</button>
+        <div class="space-y-2">
+          <label class="text-sm font-medium">Đánh giá</label>
+          <div class="flex flex-row flex-wrap gap-6">
+            @for ($i = 1; $i <= 5; $i++)
+              <label class="flex items-center gap-2 text-sm">
+                <input type="radio" name="number_of_star" value="{{ $i }}" class="h-5 w-5" @if ($i==5) checked @endif required>
+                {{ $i }} sao
+              </label>
+            @endfor
+          </div>
+        </div>
+        <button class="btn-primary" type="submit">Gửi đánh giá</button>
       </form>
-    `;
+    </div>
+  </section>
+@endsection
 
-      // Tìm comment cha dựa vào commentId
-      const parentCommentElement = event.target.closest('.comment');
-
-      // Kiểm tra xem form trả lời đã tồn tại hay chưa
-      let existingReplyForm = parentCommentElement.querySelector('.reply-form');
-      if (existingReplyForm) {
-        // Nếu form đã tồn tại, xóa nó
-        existingReplyForm.remove();
-      } else {
-        // Nếu form chưa tồn tại, thêm nó vào
-        parentCommentElement.insertAdjacentHTML('beforeend', replyForm);
-
-        // Xử lý form trả lời
-        const newReplyForm = parentCommentElement.querySelector('.reply-form');
-        newReplyForm.addEventListener('submit', (event) => {
-          event.preventDefault();
-
-          const formData = new FormData(newReplyForm);
-
-          fetch('/api/comments', {
-              method: 'POST',
-              body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-              // Hiển thị lại comment sau khi thêm comment mới
-              fetch('/api/comments/{{ $entertainmentSpot->id }}')
-                .then(response => response.json())
-                .then(comments => {
-                  displayComments(comments);
-                });
-            });
-        });
-      }
+@push('scripts')
+<script>
+    function displayStars(rating) {
+        let html = '';
+        for (let i = 1; i <= 5; i++) {
+            const cls = i <= rating ? 'fill-yellow-400 stroke-yellow-400' : 'fill-none stroke-gray-400';
+            html += `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 ${cls}" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+        }
+        return html;
     }
 
-    // Fetch comment khi trang web được load
+    function displayComments(comments) {
+        const container = document.getElementById('comment-container');
+        container.innerHTML = '';
+        comments.forEach(comment => {
+            const el = document.createElement('div');
+            el.classList.add('comment', 'py-4', 'relative');
+            el.innerHTML = `
+                <div class="flex flex-row items-start gap-4">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 text-lg font-semibold">${comment.name.charAt(0)}</div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4">
+                            <p class="font-semibold">${comment.name}</p>
+                            <div class="flex items-center gap-1 font-semibold text-yellow-500">${displayStars(comment.number_of_star)} (${comment.number_of_star})</div>
+                        </div>
+                        <p class="text-sm text-gray-500">${comment.email}</p>
+                        <p class="mt-2">${comment.body}</p>
+                        <button class="reply-button mt-2 text-brand-600 hover:underline" data-comment-id="${comment.id}" data-comment-name="${comment.name}">Trả lời</button>
+                    </div>
+                </div>`;
+            if (comment.replies && comment.replies.length) {
+                const wrap = document.createElement('div');
+                wrap.classList.add('ml-16', 'mt-4');
+                comment.replies.forEach(reply => {
+                    const r = document.createElement('div');
+                    r.classList.add('py-2');
+                    r.innerHTML = `
+                        <div class="flex flex-row items-start gap-4">
+                            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 font-semibold">${reply.name.charAt(0)}</div>
+                            <div class="flex-1">
+                                <p class="font-semibold">${reply.name}</p>
+                                <p class="text-sm text-gray-500">${reply.email}</p>
+                                <p class="mt-1">${reply.body}</p>
+                            </div>
+                        </div>`;
+                    wrap.appendChild(r);
+                });
+                el.appendChild(wrap);
+            }
+            container.appendChild(el);
+            el.querySelector('.reply-button').addEventListener('click', handleReplyClick);
+        });
+    }
+
+    function handleReplyClick(event) {
+        const commentId = event.target.dataset.commentId;
+        const commentName = event.target.dataset.commentName;
+        const parent = event.target.closest('.comment');
+        const existing = parent.querySelector('.reply-form');
+        if (existing) { existing.remove(); return; }
+
+        const form = document.createElement('form');
+        form.className = 'reply-form mt-4 ml-16 space-y-2';
+        form.innerHTML = `
+            @csrf
+            <input type="hidden" name="entertainment_spot_id" value="{{ $entertainmentSpot->id }}">
+            <input type="hidden" name="parent_id" value="${commentId}">
+            <input class="search-select" placeholder="Tên" name="name" required />
+            <input type="email" class="search-select" placeholder="Email" name="email" required />
+            <textarea class="search-select min-h-[60px]" placeholder="Trả lời..." name="body" required></textarea>
+            <button class="btn-primary" type="submit">Trả lời ${commentName}</button>`;
+        parent.appendChild(form);
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            fetch('/api/comments', { method: 'POST', body: new FormData(form) })
+                .then(r => r.json())
+                .then(() => loadComments());
+        });
+    }
+
+    function loadComments() {
+        fetch('/api/comments/{{ $entertainmentSpot->id }}')
+            .then(r => r.json())
+            .then(displayComments);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      fetch('/api/comments/{{ $entertainmentSpot->id }}')
-        .then(response => response.json())
-        .then(comments => {
-          displayComments(comments);
+        loadComments();
+        const commentForm = document.getElementById('comment-form');
+        commentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            fetch('/api/comments', { method: 'POST', body: new FormData(commentForm) })
+                .then(r => r.json())
+                .then(() => { loadComments(); commentForm.reset(); });
         });
     });
-
-    // Xử lý form comment chính
-    const commentForm = document.getElementById('comment-form');
-    commentForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const formData = new FormData(commentForm);
-
-      fetch('/api/comments', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-          // Hiển thị lại comment sau khi thêm comment mới
-          fetch('/api/comments/{{ $entertainmentSpot->id }}')
-            .then(response => response.json())
-            .then(comments => {
-              displayComments(comments);
-            });
-
-          // Reset form
-          commentForm.reset();
-          document.querySelector('input[name="parent_id"]').value = ''; // Reset parent_id
-        });
-    });
-  </script>
+</script>
+@endpush

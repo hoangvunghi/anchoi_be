@@ -47,7 +47,7 @@
     </div>
 
     <!-- Mobile Navigation -->
-    <nav id="mobile-menu" class="hidden md:hidden flex flex-col space-y-4 px-4 pb-4 bg-white dark:bg-gray-800 shadow-md">
+    <nav id="mobile-menu" class="hidden flex-col space-y-4 px-4 pb-4 bg-white dark:bg-gray-800 shadow-md md:hidden">
     <a href="/" class="text-gray-800 dark:text-white hover:underline">Trang chủ</a>
     <a href="/club" class="text-gray-800 dark:text-white hover:underline">Club</a>
     <a href="/karaoke" class="text-gray-800 dark:text-white hover:underline">Karaoke</a>

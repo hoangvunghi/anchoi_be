@@ -54,10 +54,14 @@ class EntertainmentSpot extends Model
         static::saving(function ($model) {
             $model->slug = $model->slugify($model->name);
             $model->average_rating = $model->calculateAverageRating();
-            if ($model->full_address) {
+            
+            // Chỉ lấy tọa độ từ địa chỉ nếu chưa có tọa độ
+            if ($model->full_address && (!$model->latitude || !$model->longitude)) {
                 $coordinates = $model->getCoordinatesFromAddress($model->full_address);
-                $model->latitude = $coordinates['lat'];
-                $model->longitude = $coordinates['lon'];
+                if ($coordinates) {
+                    $model->latitude = $coordinates['lat'];
+                    $model->longitude = $coordinates['lon'];
+                }
             }
         });
     }
@@ -110,7 +114,7 @@ class EntertainmentSpot extends Model
             $data = json_decode($response->getBody()->getContents(), true);
 
             // Assuming the first result is the most accurate
-            if (!empty($data) && isset($data[0]['lat']) && isset($data[0]['lon'])) {
+            if (!empty($data) && is_array($data) && isset($data[0]) && isset($data[0]['lat']) && isset($data[0]['lon'])) {
                 return [
                     'lat' => (float) $data[0]['lat'],
                     'lon' => (float) $data[0]['lon'],
@@ -133,7 +137,8 @@ class EntertainmentSpot extends Model
 
     public function calculateAverageRating()
     {
-        $comments = $this->comments()->whereNull('parent_id')->get();
+        // Use the loaded relation when present (avoids an extra query per spot in lists)
+        $comments = $this->comments->whereNull('parent_id');
         $totalRating = $comments->sum('number_of_star');
         $count = $comments->count();
         if ($count > 0) {

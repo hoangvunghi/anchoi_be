@@ -12,7 +12,6 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use App\Models\EntertainmentType;
 use App\Models\Province;
 use App\Models\Ward;
-use App\Models\Comment;
 
 class EntertainmentSpotController extends Controller
 {
@@ -29,13 +28,13 @@ class EntertainmentSpotController extends Controller
     {
         if ($type == 'all') {
 
-            $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
+            $entertainmentSpots = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->orderBy('id', 'desc')->get();
             return response()->json([
                 'entertainmentSpots' => $this->transformEntertainmentSpots($entertainmentSpots),
             ]);
         }
         if ($type == 'an') {
-            $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->whereHas('entertainmentType', function ($q) {
+            $entertainmentSpots = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->whereHas('entertainmentType', function ($q) {
                 $q->where('type', 'ăn');
             })->orderBy('id', 'desc')->get();
             return response()->json([
@@ -43,7 +42,7 @@ class EntertainmentSpotController extends Controller
             ]);
         }
         if ($type == 'choi') {
-            $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->whereHas('entertainmentType', function ($q) {
+            $entertainmentSpots = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->whereHas('entertainmentType', function ($q) {
                 $q->where('type', 'chơi');
             })->orderBy('id', 'desc')->get();
             return response()->json([
@@ -66,29 +65,50 @@ class EntertainmentSpotController extends Controller
         return view("home", compact('entertainmentSpots', 'entertainmentSpots_karaoke', 'entertainmentSpots_bar', 'entertainmentSpots_nha_hang', 'entertainmentSpots_club'));
     }
 
-    public function index_all()
+    public function index_all(Request $request)
     {
-        $response_all = $this->index_nr("all");
-        $entertainmentSpots = $response_all->getData()->entertainmentSpots;
-        $pageTitle = "Tất cả địa điểm ăn chơi tại Việt Nam";
-        $title = "Tất cả địa điểm ăn chơi tại Việt Nam";
-        return view("searchResult", compact('entertainmentSpots', 'pageTitle', 'title'));
+        return $this->renderSpotList($request, null, "Tất cả địa điểm ăn chơi tại Việt Nam", "Tất cả địa điểm ăn chơi tại Việt Nam");
     }
-    public function index_an()
+    public function index_an(Request $request)
     {
-        $response_all = $this->index_nr("an");
-        $entertainmentSpots = $response_all->getData()->entertainmentSpots;
-        $pageTitle = "Địa điểm ăn uống tại Việt Nam";
-        $title = "Ăn uống tại Việt Nam";
-        return view("searchResult", compact('entertainmentSpots', 'pageTitle', 'title'));
+        return $this->renderSpotList($request, 'ăn', "Địa điểm ăn uống tại Việt Nam", "Ăn uống tại Việt Nam");
     }
-    public function index_choi()
+    public function index_choi(Request $request)
     {
-        $response_all = $this->index_nr("choin  ");
-        $entertainmentSpots = $response_all->getData()->entertainmentSpots;
-        $pageTitle = "Địa điểm vui chơi giải trí tại Việt Nam";
-        $title = "Vui chơi giải trí tại Việt Nam";
-        return view("searchResult", compact('entertainmentSpots', 'pageTitle', 'title'));
+        return $this->renderSpotList($request, 'chơi', "Địa điểm vui chơi giải trí tại Việt Nam", "Vui chơi giải trí tại Việt Nam");
+    }
+
+    /**
+     * Danh sách địa điểm có phân trang + hỗ trợ "tải thêm" AJAX.
+     * $typeValue: null = tất cả; 'ăn'/'chơi' = lọc theo cột type của loại hình.
+     */
+    private function renderSpotList(Request $request, ?string $typeValue, string $pageTitle, string $title)
+    {
+        $query = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])
+            ->where('status', 'approved');
+
+        if ($typeValue) {
+            $query->whereHas('entertainmentType', fn ($q) => $q->where('type', $typeValue));
+        }
+
+        $paginator = $query->orderBy('id', 'desc')->paginate(12);
+        $items = json_decode(json_encode($this->transformEntertainmentSpots($paginator->getCollection())));
+        $nextAjax = $paginator->hasMorePages() ? $paginator->nextPageUrl() . '&ajax=1' : null;
+
+        if ($request->boolean('ajax')) {
+            return response()->json([
+                'html' => view('partials.spot-cards', ['entertainmentSpots' => $items])->render(),
+                'nextPageUrl' => $nextAjax,
+            ]);
+        }
+
+        return view('searchResult', [
+            'entertainmentSpots' => $items,
+            'pageTitle' => $pageTitle,
+            'title' => $title,
+            'nextPageUrl' => $nextAjax,
+            'nextPagePlain' => $paginator->hasMorePages() ? $paginator->nextPageUrl() : null,
+        ]);
     }
     public function store(Request $request)
     {
@@ -119,7 +139,7 @@ class EntertainmentSpotController extends Controller
 
     public function show($id)
     {
-        $entertainmentSpot = EntertainmentSpot::with(['ward', 'entertainmentType'])->find($id);
+        $entertainmentSpot = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])->find($id);
 
         if (!$entertainmentSpot) {
             return response()->json(['message' => 'Entertainment Spot not found'], Response::HTTP_NOT_FOUND);
@@ -219,7 +239,7 @@ class EntertainmentSpotController extends Controller
                 }
             }
 
-            $entertainmentSpots = $query->with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
+            $entertainmentSpots = $query->with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->orderBy('id', 'desc')->get();
 
             return response()->json([
                 'entertainmentSpots' => $this->transformEntertainmentSpots($entertainmentSpots),
@@ -227,7 +247,7 @@ class EntertainmentSpotController extends Controller
                 'pageTitle' => $criteria['pageTitle'],
             ]);
         } else {
-            $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
+            $entertainmentSpots = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->orderBy('id', 'desc')->get();
             return response()->json($this->transformEntertainmentSpots($entertainmentSpots));
         }
     }
@@ -261,7 +281,7 @@ class EntertainmentSpotController extends Controller
             });
         }
 
-        $entertainmentSpots = $query->with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
+        $entertainmentSpots = $query->with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->orderBy('id', 'desc')->get();
 
         if ($entertainmentSpots->isEmpty()) {
             return response()->json(['message' => 'Entertainment Spot not found'], Response::HTTP_NOT_FOUND);
@@ -335,32 +355,44 @@ class EntertainmentSpotController extends Controller
         }
 
         $title = trim($title, ", ");
-        $entertainmentSpots = $query->with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
-        if ($entertainmentSpots->isEmpty()) {
+        $paginator = $query->with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->orderBy('id', 'desc')->paginate(12);
+        if ($paginator->isEmpty()) {
             return response()->json(['message' => 'Entertainment Spot not found', 'entertainmentSpots' => "",'pageTitle' => $pageTitle,
             'title' => $title,"type"=>$loaiHinhName], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json([
-            'entertainmentSpots' => $this->transformEntertainmentSpots($entertainmentSpots),
+            'entertainmentSpots' => $this->transformEntertainmentSpots($paginator->getCollection()),
             'pageTitle' => $pageTitle,
-            'title' => $title
+            'title' => $title,
+            'nextPageUrl' => $paginator->hasMorePages() ? $paginator->nextPageUrl() : null,
         ]);
     }
 
     public function urlApiSearchRender(Request $request, $params)
     {
-        $response = $this->urlApiSearch($request, $params);
-        if ($response->getData()->entertainmentSpots == "") {
-            $pageTitle = $response->getData()->pageTitle;
-            $type=$response->getData()->type;
-        $title = $response->getData()->title;
-            return view("404", compact("pageTitle", "title","type"));
+        $data = $this->urlApiSearch($request, $params)->getData();
+        // Nhánh 404 có thể thiếu pageTitle/title/type → dùng ?? để không nổ Undefined property
+        if ($data->entertainmentSpots == "") {
+            $pageTitle = $data->pageTitle ?? 'Không tìm thấy địa điểm';
+            $type = $data->type ?? '';
+            $title = $data->title ?? 'Không tìm thấy địa điểm phù hợp';
+            return response()->view("404", compact("pageTitle", "title", "type"), 404);
         }
-        $entertainmentSpots = $response->getData()->entertainmentSpots;
-        $pageTitle = $response->getData()->pageTitle;
-        $title = $response->getData()->title;
-        return view("searchResult", compact("entertainmentSpots", "pageTitle", "title"));
+        $entertainmentSpots = $data->entertainmentSpots;
+        $pageTitle = $data->pageTitle ?? '';
+        $title = $data->title ?? '';
+        $nextPagePlain = $data->nextPageUrl ?? null;
+        $nextPageUrl = $nextPagePlain ? $nextPagePlain . '&ajax=1' : null;
+
+        if ($request->boolean('ajax')) {
+            return response()->json([
+                'html' => view('partials.spot-cards', ['entertainmentSpots' => $entertainmentSpots])->render(),
+                'nextPageUrl' => $nextPageUrl,
+            ]);
+        }
+
+        return view("searchResult", compact("entertainmentSpots", "pageTitle", "title", "nextPageUrl", "nextPagePlain"));
     }
 
     public function getLastId()
@@ -399,7 +431,7 @@ class EntertainmentSpotController extends Controller
             }
         }
 
-        $entertainmentSpot = $query->with(['ward', 'entertainmentType'])->where('slug', $id)->where('status', 'approved')->orderBy('id', 'desc')->first();
+        $entertainmentSpot = $query->with(['ward.province', 'entertainmentType', 'comments'])->where('slug', $id)->where('status', 'approved')->orderBy('id', 'desc')->first();
 
         if (!$entertainmentSpot) {
             return response()->json(['message' => 'Entertainment Spot not found', "entertainmentSpot" => ""], Response::HTTP_NOT_FOUND);
@@ -415,7 +447,8 @@ class EntertainmentSpotController extends Controller
     {
         $response = $this->urlApiSearchDetail($request, $params, $id);
         if ($response->getData()->entertainmentSpot == "") {
-            return view("404");
+            // 404.blade cần $pageTitle và $title
+            return response()->view("404", ['pageTitle' => 'Không tìm thấy địa điểm', 'title' => 'Địa điểm không tồn tại'], 404);
         }
         $entertainmentSpot = $response->getData()->entertainmentSpot;
         $titlePage = $response->getData()->titlePage;
@@ -435,7 +468,7 @@ class EntertainmentSpotController extends Controller
                 $q->where('type', 'chơi');
             });
         }
-        $entertainmentSpots = $query->with(['ward', 'entertainmentType'])->where('status', 'approved')->orderBy('id', 'desc')->get();
+        $entertainmentSpots = $query->with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->orderBy('id', 'desc')->get();
 
         return response()->json($this->transformEntertainmentSpots($entertainmentSpots));
     }
@@ -471,7 +504,7 @@ class EntertainmentSpotController extends Controller
                 return response()->json([]);
         }
 
-        $entertainmentSpots = $query->with(['ward', 'entertainmentType'])->where('status', 'approved')->latest()->take(16)->orderBy('id', 'desc')->get();
+        $entertainmentSpots = $query->with(['ward.province', 'entertainmentType', 'comments'])->where('status', 'approved')->latest()->take(16)->orderBy('id', 'desc')->get();
 
         // return response()->json($this->transformEntertainmentSpots($entertainmentSpots));
         return response()->json([
@@ -481,7 +514,7 @@ class EntertainmentSpotController extends Controller
 
     public function detail_entertainment_spot(Request $request, $slug)
     {
-        $entertainmentSpot = EntertainmentSpot::with(['ward', 'entertainmentType'])->where('slug', $slug)->where('status', 'approved')->orderBy('id', 'desc')->first();
+        $entertainmentSpot = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])->where('slug', $slug)->where('status', 'approved')->orderBy('id', 'desc')->first();
 
         if (!$entertainmentSpot) {
             return response()->json(['message' => 'Entertainment Spot not found'], Response::HTTP_NOT_FOUND);
@@ -492,7 +525,7 @@ class EntertainmentSpotController extends Controller
     private function transformEntertainmentSpot($entertainmentSpot)
     {
         $openingHoursSpecification = $this->generateOpeningHoursSpecification($entertainmentSpot->opening_hours);
-        $comments = Comment::where('entertainment_spot_id', $entertainmentSpot->id)->get();
+        $comments = $entertainmentSpot->comments; // eager-loaded; avoids an N+1 query per spot
         $reviews = $comments->map(function ($comment) {
             return [
                 "@type" => "Review",
@@ -777,7 +810,9 @@ class EntertainmentSpotController extends Controller
             }
         }
 
-        $relatedSpots = $relatedSpots->take(RELATED_SPOTS_LIMIT);
+        // Bọc vào Eloquent Collection để dùng được load() (base Collection không có)
+        $relatedSpots = \Illuminate\Database\Eloquent\Collection::make($relatedSpots->take(RELATED_SPOTS_LIMIT))
+            ->load(['ward.province', 'entertainmentType', 'comments']);
 
         return response()->json($this->transformEntertainmentSpots($relatedSpots));
     }
@@ -813,7 +848,7 @@ class EntertainmentSpotController extends Controller
     public function findNearestEntertainmentSpots(Request $request, $lat, $lon)
     {
         // Lấy danh sách địa điểm đã được duyệt (status = 'approved') và có kinh độ, vĩ độ
-        $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])
+        $entertainmentSpots = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])
             ->where('status', 'approved')
             // ->whereNotNull('latitude')
             // ->whereNotNull('longitude')
@@ -837,14 +872,10 @@ class EntertainmentSpotController extends Controller
 
     public function findNearestEntertainmentSpotsRender(Request $request)
     {
-        if (session()->has('latitude') && session()->has('longitude')) {
-            $lat = session('latitude');
-            $lon = session('longitude');
-        } else {
-            // Nếu không có tọa độ trong session, sử dụng giá trị mặc định (ví dụ: 0, 0)
-            $lat = 0;
-            $lon = 0;
-        }
+        // Tọa độ do saveLocation() lưu dưới key 'user_location' (trước đây đọc nhầm 'latitude'/'longitude')
+        $location = session('user_location');
+        $lat = $location['latitude'] ?? 0;
+        $lon = $location['longitude'] ?? 0;
         $response = $this->findNearestEntertainmentSpots($request, $lat, $lon);
 
         // Lấy dữ liệu từ response
@@ -862,7 +893,7 @@ class EntertainmentSpotController extends Controller
             $type = [$type];
         }
         // Lấy danh sách địa điểm đã được duyệt (status = 'approved') và có kinh độ, vĩ độ
-        $entertainmentSpots = EntertainmentSpot::with(['ward', 'entertainmentType'])
+        $entertainmentSpots = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])
             ->where('status', 'approved')
             // ->whereNotNull('latitude')
             // ->whereNotNull('longitude')
@@ -924,11 +955,11 @@ class EntertainmentSpotController extends Controller
             ]);
         }
 
-        // Kiểm tra xem vị trí có còn mới không (dưới 5 phút)
+        // Kiểm tra xem vị trí có còn mới không (dưới 24 giờ)
         $timestamp = $location['timestamp'];
         $now = now()->timestamp;
         
-        if ($now - $timestamp > 5 * 60) {
+        if ($now - $timestamp > 24 * 60 * 60) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Vị trí đã cũ',
@@ -939,6 +970,7 @@ class EntertainmentSpotController extends Controller
         return response()->json([
             'status' => 'success',
             'has_location' => true,
+            'age_seconds' => $now - $timestamp,
             'location' => [
                 'latitude' => $location['latitude'],
                 'longitude' => $location['longitude']
@@ -948,15 +980,10 @@ class EntertainmentSpotController extends Controller
 
     public function findNearestEntertainmentSpotsByTypeRender(Request $request, $type)
     {
-        // Lấy tọa độ từ request; nếu không có thì sử dụng lat = 0, lon = 0
-        if (session()->has('latitude') && session()->has('longitude')) {
-            $lat = session('latitude');
-            $lon = session('longitude');
-        } else {
-            // Nếu không có tọa độ trong session, sử dụng giá trị mặc định (ví dụ: 0, 0)
-            $lat = 0;
-            $lon = 0;
-        }
+        // Tọa độ do saveLocation() lưu dưới key 'user_location'
+        $location = session('user_location');
+        $lat = $location['latitude'] ?? 0;
+        $lon = $location['longitude'] ?? 0;
         // Gọi hàm findNearestEntertainmentSpotsByType
         $response = $this->findNearestEntertainmentSpotsByType($request, $lat, $lon, $type);
 

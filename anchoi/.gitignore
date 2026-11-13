@@ -2,8 +2,10 @@
 /node_modules
 /public/hot
 /vendor
+.env
 .env.backup
 .env.production
+1.env
 .phpactor.json
 .phpunit.result.cache
 Homestead.json

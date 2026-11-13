@@ -15,7 +15,10 @@ class BlogController extends Controller
 
     public function index()
     {
-        $blogs = Blog::with('category')->orderBy('id', 'desc')->get();
+        // Trang danh sách không hiển thị body (HTML nặng) -> không select để nhẹ query
+        $blogs = Blog::with('category:id,name,slug')
+            ->select(['id', 'title', 'slug', 'banner_image', 'category_id', 'created_at', 'updated_at'])
+            ->orderBy('id', 'desc')->get();
         // return response()->json($this->transformBlogs($blogs));
         return response()->json([
             'blogs' => $this->transformBlogs($blogs),

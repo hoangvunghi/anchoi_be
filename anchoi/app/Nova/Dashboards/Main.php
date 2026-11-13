@@ -2,7 +2,10 @@
 
 namespace App\Nova\Dashboards;
 
-use Laravel\Nova\Cards\Help;
+use App\Nova\Metrics\PendingSpots;
+use App\Nova\Metrics\SpotsByStatus;
+use App\Nova\Metrics\TotalReviews;
+use App\Nova\Metrics\TotalSpots;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
 class Main extends Dashboard
@@ -15,7 +18,10 @@ class Main extends Dashboard
     public function cards()
     {
         return [
-            new Help,
+            new TotalSpots,
+            new PendingSpots,
+            new TotalReviews,
+            new SpotsByStatus,
         ];
     }
 }

@@ -1,242 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ăn chơi nét</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9InctOCBoLTgiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0yMC4yIDIwLjJjMi4wNC0yLjAzLjAyLTcuMzYtNC41LTExLjktNC41NC00LjUyLTkuODctNi41NC0xMS45LTQuNS0yLjA0IDIuMDMtLjAyIDcuMzYgNC41IDExLjkgNC41NCA0LjUyIDkuODcgNi41NCAxMS45IDQuNVoiPjwvcGF0aD48cGF0aCBkPSJNMTUuNyAxNS43YzQuNTItNC41NCA2LjU0LTkuODcgNC41LTExLjktMi4wMy0yLjA0LTcuMzYtLjAyLTExLjkgNC41LTQuNTIgNC41NC02LjU0IDkuODctNC41IDExLjkgMi4wMyAyLjA0IDcuMzYgLjAyIDExLjktNC41WiI+PC9wYXRoPjwvc3ZnPg==" type="image/svg+xml"> 
+@section('title', 'Ăn chơi nét - Tìm kiếm địa điểm giải trí, ăn uống hàng đầu Việt Nam')
+@section('description', 'Khám phá các địa điểm ăn uống, club, karaoke, bar và nhà hàng tốt nhất gần bạn. Ăn chơi nét - Nền tảng tìm kiếm giải trí và ẩm thực hàng đầu.')
+
+@push('head')
     @foreach ($entertainmentSpots as $entertainmentSpot)
-    <script type="application/ld+json">
-        @php
-        echo json_encode($entertainmentSpot -> header);
-        @endphp
-    </script>
+        <script type="application/ld+json">@php echo json_encode($entertainmentSpot->header); @endphp</script>
     @endforeach
-</head>
+@endpush
 
-<body class="bg-gray-100 dark:bg-gray-900">
+@section('content')
+    @include('search')
 
-<header class="bg-white dark:bg-gray-800 py-4 shadow-md fixed top-0 left-0 w-full z-50">
-    <div class="container mx-auto px-4 flex justify-between items-center">
-        <a href="/" class="logo cursor-pointer flex items-center flex-row gap-2">
-            <!-- Logo and Text -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
-                <circle cx="12" cy="12" r="1"></circle>
-                <path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"></path>
-                <path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"></path>
-            </svg>
-            <p class="text-xl font-semibold">Ăn chơi nét</p>
-        </a>
+    @php
+        $sections = [
+            ['Địa điểm hot', '/all', $entertainmentSpots],
+            ['Điểm Karaoke', '/karaoke', $entertainmentSpots_karaoke],
+            ['Điểm Bar', '/bar', $entertainmentSpots_bar],
+            ['Nhà hàng', '/nha-hang', $entertainmentSpots_nha_hang],
+        ];
+    @endphp
 
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex space-x-6">
-            <a href="/" class="text-gray-800 dark:text-white hover:underline">Trang chủ</a>
-            <a href="/club" class="text-gray-800 dark:text-white hover:underline">Club</a>
-            <a href="/karaoke" class="text-gray-800 dark:text-white hover:underline">Karaoke</a>
-            <a href="/bar" class="text-gray-800 dark:text-white hover:underline">Bar</a>
-            <a href="/nha-hang" class="text-gray-800 dark:text-white hover:underline">Nhà hàng</a>
-            <a href="/blog" class="text-gray-800 dark:text-white hover:underline">Blog</a>
-            <a href="/contact" class="text-gray-800 dark:text-white hover:underline">Liên hệ</a>
-        </nav>
-
-        <!-- Mobile Menu Button -->
-        <button id="menu-toggle" class="md:hidden" aria-label="Toggle Navigation">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-6 h-6 text-gray-800 dark:text-white">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-        </button>
-    </div>
-
-    <!-- Mobile Navigation -->
-    <nav id="mobile-menu" class="hidden md:hidden flex flex-col space-y-4 px-4 pb-4 bg-white dark:bg-gray-800 shadow-md">
-    <a href="/" class="text-gray-800 dark:text-white hover:underline">Trang chủ</a>
-    <a href="/club" class="text-gray-800 dark:text-white hover:underline">Club</a>
-    <a href="/karaoke" class="text-gray-800 dark:text-white hover:underline">Karaoke</a>
-    <a href="/bar" class="text-gray-800 dark:text-white hover:underline">Bar</a>
-    <a href="/nha-hang" class="text-gray-800 dark:text-white hover:underline">Nhà hàng</a>
-    <a href="/blog" class="text-gray-800 dark:text-white hover:underline">Blog</a>
-    <a href="/contact" class="text-gray-800 dark:text-white hover:underline">Liên hệ</a>
-</nav>
-</header>
-
-    <main class="container mx-auto px-4 py-8  pt-20">
-
-        @include('search')
-
-        <section class="py-4">
-            <div class="flex flex-row items-end gap-4">
-                <h2 class="text-2xl font-semibold">Địa điểm hot</h2>
-                <a href="/all" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
+    @foreach ($sections as [$heading, $link, $spots])
+        @continue (count($spots) === 0)
+        <section class="py-6">
+            <div class="flex items-end justify-between gap-4">
+                <h2 class="text-2xl font-bold tracking-tight">{{ $heading }}</h2>
+                <a href="{{ $link }}" class="text-sm font-medium text-brand-600 hover:underline">Xem tất cả &rarr;</a>
             </div>
-            <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 sm:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
 
-                @foreach ($entertainmentSpots as $spot)
-                <a href="/{{ $spot->url }}" class="overflow-hidden group">
-                    <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
-                        <div class="relative h-64">
-                            <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
+            <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                @foreach ($spots as $spot)
+                    <a href="/{{ $spot->url }}" class="group spot-card">
+                        <div class="relative h-56 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                            <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" loading="lazy"
+                                 class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                         </div>
-                        <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ Str::limit($spot->name, 32, '...') }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 text-ellipsis">
-                                Địa điểm:
-                                {{ Str::limit($spot->full_address, 35, '...') }}
+                        <div class="p-4">
+                            <h3 class="line-clamp-1 font-semibold text-lg">{{ Str::limit($spot->name, 32) }}</h3>
+                            <p class="mt-1 line-clamp-1 text-sm text-gray-500 dark:text-gray-400">
+                                <span class="font-medium text-gray-600 dark:text-gray-300">Khu vực:</span> {{ $spot->ward_name }}
                             </p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
-                        </div>
-                    </div>
-                </a>
-                @endforeach
-
-            </div> 
-        </section>
-
-        <section class="py-4">
-            <div class="flex flex-row items-end gap-4">
-                <h2 class="text-2xl font-semibold">Điểm Karaoke</h2>
-                <a href="/karaoke" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
-            </div>
-            <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 sm:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
-                                @foreach ($entertainmentSpots_karaoke as $spot)
-                <a href="/{{ $spot->url }}" class="overflow-hidden group">
-                    <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
-                        <div class="relative h-64">
-                            <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
-                        </div>
-                        <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ Str::limit($spot->name, 32, '...') }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 text-ellipsis">
-                                Địa điểm:
-                                {{ Str::limit($spot->full_address, 35, '...') }}
+                            <p class="line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
+                                {{ Str::limit($spot->full_address, 48) }}
                             </p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
                         </div>
-                    </div>
-                </a>
+                    </a>
                 @endforeach
             </div>
         </section>
-
-        <section class="py-4">
-            <div class="flex flex-row items-end gap-4">
-                <h2 class="text-2xl font-semibold">Điểm Bar</h2>
-                <a href="/bar" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
-            </div>
-            <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 sm:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
-                                @foreach ($entertainmentSpots_bar as $spot)
-                <a href="/{{ $spot->url }}" class="overflow-hidden group">
-                    <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
-                        <div class="relative h-64">
-                            <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
-                        </div>
-                        <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ Str::limit($spot->name, 32, '...') }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 text-ellipsis">
-                                Địa điểm:
-                                {{ Str::limit($spot->full_address, 35, '...') }}
-                            </p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
-                        </div>
-                    </div>
-                </a>
-                @endforeach
-            </div>
-        </section>
-        <section class="py-4">
-            <div class="flex flex-row items-end gap-4">
-                <h2 class="text-2xl font-semibold">Nhà hàng</h2>
-                <a href="/nha-hang" class="hover:underline text-sm text-gray-600 dark:text-gray-400 cursor-pointer">Xem tất cả</a>
-            </div>
-            <div class="grid lg:grid-cols-4 gap-8 md:grid-cols-3 sm:grid-cols-2 max-[450px]:grid-cols-1 mt-4">
-                                @foreach ($entertainmentSpots_nha_hang as $spot)
-                <a href="/{{ $spot->url }}" class="overflow-hidden group">
-                    <div class="rounded-xl shadow-lg bg-white dark:bg-gray-800 hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
-                        <div class="relative h-64">
-                            <img src="/{{ $spot->banner_image }}" alt="{{ $spot->name }}" class="absolute inset-0 object-cover w-full h-full" />
-                        </div>
-                        <div class="px-4 py-2">
-                            <h3 class="font-semibold text-xl line-clamp-1 text-ellipsis">{{ Str::limit($spot->name, 32, '...') }}</h3>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 text-ellipsis">
-                                Địa điểm:
-                                {{ Str::limit($spot->full_address, 35, '...') }}
-                            </p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Số điện thoại: {{ $spot->phone_number }}</p>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-1 text-ellipsis">Khu vực: {{ $spot->ward_name }}</p>
-                        </div>
-                    </div>
-                </a>
-                @endforeach
-            </div>
-        </section>
-
-    </main>
-
-    @include('footer')
-</body>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    menuToggle.addEventListener('click', function () {
-        mobileMenu.classList.toggle('hidden');
-    });
-});
-
-    async function requestLocation() {
-        try {
-            // Kiểm tra vị trí đã lưu trước
-            const response = await fetch('/get-location');
-            const data = await response.json();
-            
-            if (data.status === 'success' && data.has_location) {
-                console.log('Đã có vị trí trong session');
-                return;
-            }
-
-            // Nếu chưa có vị trí hoặc vị trí đã cũ, yêu cầu vị trí mới
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-
-                        fetch('/save-location', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            body: JSON.stringify({ latitude, longitude })
-                        })
-                        .then(response => response.json())
-                        .then(data => console.log('Vị trí đã được lưu:', data))
-                        .catch(error => console.error('Lỗi khi lưu vị trí:', error));
-                    },
-                    error => {
-                        console.error('Lỗi khi lấy vị trí:', error);
-                        alert('Vui lòng cho phép truy cập vị trí của bạn.');
-                    },
-                    { enableHighAccuracy: true }
-                );
-            } else {
-                alert('Trình duyệt của bạn không hỗ trợ Geolocation.');
-            }
-        } catch (error) {
-            console.error('Lỗi khi kiểm tra vị trí:', error);
-        }
-    }
-
-    // Gọi hàm requestLocation khi trang được tải
-    window.addEventListener('load', requestLocation);
-</script>
-
-</html>
+    @endforeach
+@endsection

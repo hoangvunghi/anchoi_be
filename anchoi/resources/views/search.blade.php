@@ -1,118 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+{{-- Hero + bộ lọc tìm kiếm. Đây là FRAGMENT include vào <main>, KHÔNG phải trang HTML riêng. --}}
+<section class="hero-banner relative overflow-hidden rounded-2xl px-6 py-10 sm:px-10 sm:py-14 text-white">
+    <div class="relative z-10 max-w-3xl">
+        <h1 class="text-3xl sm:text-4xl font-bold leading-tight tracking-tight text-balance">
+            Tìm địa điểm ăn chơi khắp Việt Nam
+        </h1>
+        <p class="mt-3 text-white/80 text-base sm:text-lg text-pretty">
+Club, karaoke, bar, nhà hàng &mdash; chọn khu vực hoặc tìm ngay gần bạn.
+        </p>
+    </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9InctOCBoLTgiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0yMC4yIDIwLjJjMi4wNC0yLjAzLjAyLTcuMzYtNC41LTExLjktNC41NC00LjUyLTkuODctNi41NC0xMS45LTQuNS0yLjA0IDIuMDMtLjAyIDcuMzYgNC41IDExLjkgNC41NCA0LjUyIDkuODcgNi41NCAxMS45IDQuNVoiPjwvcGF0aD48cGF0aCBkPSJNMTUuNyAxNS43YzQuNTItNC41NCA2LjU0LTkuODcgNC41LTExLjktMi4wMy0yLjA0LTcuMzYtLjAyLTExLjkgNC41LTQuNTIgNC41NC02LjU0IDkuODctNC41IDExLjkgMi4wMyAyLjA0IDcuMzYgLjAyIDExLjktNC41WiI+PC9wYXRoPjwvc3ZnPg==" type="image/svg+xml">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-</head>
-
-<body>
-    <header id="header">
-        <h1 class="text-2xl font-bold">Tìm điểm ăn chơi</h1>
-    </header>
-
-
-
-    <div class="search-bar flex flex-wrap gap-4 mt-4 p-4 bg-gray-100 rounded-lg">
-        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
-            <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="loai-hinh" name="loai-hinh">
+    <div class="search-bar relative z-10 mt-6 flex flex-wrap gap-3 rounded-xl bg-white/95 backdrop-blur p-4 shadow-xl">
+        <div class="search-select-container relative w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(20%-0.6rem)]">
+            <select class="search-select" id="loai-hinh" name="loai-hinh">
                 <option value="">Chọn loại hình</option>
             </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-            </div>
+            <svg class="select-caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
         </div>
-        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
-            <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="tinh" name="tinh">
+        <div class="search-select-container relative w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(20%-0.6rem)]">
+            <select class="search-select" id="tinh" name="tinh">
                 <option value="">Chọn tỉnh/thành phố</option>
             </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-            </div>
+            <svg class="select-caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
         </div>
-        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
-            <select class="search-select w-full p-2 border border-gray-300 rounded-md appearance-none" id="xa-phuong" name="xa-phuong">
+        <div class="search-select-container relative w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(20%-0.6rem)]">
+            <select class="search-select" id="xa-phuong" name="xa-phuong">
                 <option value="">Chọn xã/phường</option>
             </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-            </div>
+            <svg class="select-caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
         </div>
-        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
-            <button class="search-button w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-                onclick="timKiem()">Tìm kiếm</button>
-
+        <div class="w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(20%-0.6rem)]">
+            <button class="btn-primary w-full" onclick="timKiem()">Tìm kiếm</button>
         </div>
-        <div class="search-select-container relative w-full sm:w-1/2 md:w-1/4">
-            <button class="search-button w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-                onclick="timKiemGanDay()">Tìm kiếm gần đây</button>
-
+        <div class="w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(20%-0.6rem)]">
+            <button class="btn-ghost w-full" onclick="timKiemGanDay()">Gần bạn</button>
         </div>
-
     </div>
-</body>
+</section>
 
-</html>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const domain = 'http://127.0.0.1:8000';
-
-        // Hàm kiểm tra và xử lý vị trí
-        async function handleLocation() {
-            try {
-                // Kiểm tra vị trí đã lưu trước
-                const response = await fetch(`${domain}/get-location`);
-                const data = await response.json();
-                
-                if (data.status === 'success' && data.has_location) {
-                    console.log('Đã có vị trí trong session');
-                    return;
-                }
-
-                // Nếu chưa có vị trí hoặc vị trí đã cũ, yêu cầu vị trí mới
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        position => savePosition(position),
-                        error => console.error('Lỗi khi lấy vị trí:', error),
-                        { enableHighAccuracy: true }
-                    );
-                }
-            } catch (error) {
-                console.error('Lỗi khi kiểm tra vị trí:', error);
-            }
-        }
-
-        // Hàm lưu vị trí
-        function savePosition(position) {
-            fetch(`${domain}/save-location`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                })
-            })
-            .then(response => response.json())
-            .then(data => console.log('Vị trí đã được lưu:', data))
-            .catch(error => console.error('Lỗi khi lưu vị trí:', error));
-        }
-
-        // Khởi động xử lý vị trí
-        handleLocation();
+        const domain = ''; // geolocation được xử lý tập trung trong resources/js/app.js
 
         const loaiHinhSelect = document.querySelector('.search-select[name="loai-hinh"]');
         const tinhSelect = document.querySelector('.search-select[name="tinh"]');
@@ -128,7 +55,8 @@
             if (stored) {
                 const { data, timestamp } = JSON.parse(stored);
                 const now = new Date().getTime();
-                if (now - timestamp < expirationHours * 60 * 60 * 1000) {
+                // chỉ dùng cache khi còn hạn VÀ không rỗng (tránh kẹt mảng rỗng 24h)
+                if (Array.isArray(data) && data.length && now - timestamp < expirationHours * 60 * 60 * 1000) {
                     return data;
                 }
             }
@@ -136,10 +64,9 @@
             try {
                 const response = await fetch(`${domain}${apiUrl}`);
                 const data = await response.json();
-                localStorage.setItem(key, JSON.stringify({
-                    data,
-                    timestamp: new Date().getTime()
-                }));
+                if (Array.isArray(data) && data.length) {
+                    localStorage.setItem(key, JSON.stringify({ data, timestamp: new Date().getTime() }));
+                }
                 return data;
             } catch (error) {
                 console.error('Error:', error);
@@ -239,6 +166,3 @@
         }
     }
 </script>
-</body>
-
-</html>
