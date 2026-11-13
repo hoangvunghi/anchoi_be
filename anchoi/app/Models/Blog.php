@@ -44,7 +44,10 @@ class Blog extends Model
         );
         foreach ($dict as $nonUnicode => $uni) {
             $string = preg_replace("/($uni)/i", $nonUnicode, $string);
-        }    
-        return $string;
+        }
+        // Bỏ ký tự không hợp lệ (dấu câu : , " ...) + gộp gạch nối
+        $string = preg_replace('/[^a-z0-9\-]/', '', $string);
+        $string = preg_replace('/-+/', '-', $string);
+        return trim($string, '-');
     }
 }
