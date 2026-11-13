@@ -9,6 +9,14 @@
 @endpush
 
 @section('content')
+  @php
+    $hasCoords = (float) $entertainmentSpot->latitude != 0 && (float) $entertainmentSpot->longitude != 0;
+    $destination = $hasCoords
+      ? $entertainmentSpot->latitude . ',' . $entertainmentSpot->longitude
+      : trim(($entertainmentSpot->full_address ?? '') . ', ' . ($entertainmentSpot->ward_name ?? '') . ', ' . ($entertainmentSpot->province_name ?? ''), ', ');
+    $directionsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($destination);
+  @endphp
+
   <div class="flex flex-col gap-6 md:flex-row">
     <div class="w-full md:w-9/12">
       <div class="space-y-3">
@@ -68,6 +76,12 @@
           <iframe class="h-72 w-full rounded-xl ring-1 ring-black/5" loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade" title="Bản đồ {{ $entertainmentSpot->name }}"
                   src="https://maps.google.com/maps?q={{ $entertainmentSpot->latitude }},{{ $entertainmentSpot->longitude }}({{ urlencode($entertainmentSpot->name) }})&z=16&output=embed"></iframe>
+          <div class="mt-3 flex flex-wrap gap-4 text-sm font-medium">
+            {{-- Link của mình: search?query=toạ-độ -> mở Google Maps CÓ pin đỏ đúng điểm --}}
+            <a href="https://www.google.com/maps/search/?api=1&query={{ $entertainmentSpot->latitude }},{{ $entertainmentSpot->longitude }}"
+               target="_blank" rel="noopener" class="text-brand-600 hover:underline">📍 Mở trên Google Maps</a>
+            <a href="{{ $directionsUrl }}" target="_blank" rel="noopener" class="text-brand-600 hover:underline">🧭 Chỉ đường</a>
+          </div>
         </div>
         @endif
 
