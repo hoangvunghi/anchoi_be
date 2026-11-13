@@ -154,9 +154,21 @@ class BlogController extends Controller
 
     public function getBlogBySlugRender($slug)
     {
-        $response = $this->getBlogBySlug($slug);
-        $blog = $response->getData()->blog;
-        return view('blogDetail', compact('blog'));
+        $current = Blog::with('category')->where('slug', $slug)->first();
+        if (!$current) {
+            return response()->view('404', ['pageTitle' => 'Không tìm thấy bài viết', 'title' => 'Bài viết không tồn tại'], 404);
+        }
+        $blog = json_decode(json_encode($this->transformBlog($current)));
+
+        // Bài liên quan: cùng danh mục, trừ bài hiện tại
+        $related = Blog::with('category:id,name,slug')
+            ->select(['id', 'title', 'slug', 'banner_image', 'category_id', 'created_at'])
+            ->where('category_id', $current->category_id)
+            ->where('id', '!=', $current->id)
+            ->latest('id')->take(4)->get();
+        $related = json_decode(json_encode($this->transformBlogs($related)));
+
+        return view('blogDetail', compact('blog', 'related'));
     }
 
     private function transformBlog($blog)
