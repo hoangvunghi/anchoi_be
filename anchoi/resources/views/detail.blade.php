@@ -6,6 +6,7 @@
 
 @push('head')
     <script type="application/ld+json">@php echo json_encode($entertainmentSpot->header); @endphp</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 @endpush
 
 @section('content')
@@ -61,6 +62,15 @@
             </div>
           </div>
         </div>
+
+        @if ((float) $entertainmentSpot->latitude != 0 && (float) $entertainmentSpot->longitude != 0)
+        <div class="border-t border-gray-200 py-4 dark:border-gray-700">
+          <h2 class="mb-2 text-lg font-semibold">Bản đồ</h2>
+          <div id="map" class="h-72 w-full overflow-hidden rounded-xl ring-1 ring-black/5"
+               data-lat="{{ $entertainmentSpot->latitude }}" data-lng="{{ $entertainmentSpot->longitude }}"
+               data-name="{{ $entertainmentSpot->name }}"></div>
+        </div>
+        @endif
 
         <div class="mt-4 border-t border-gray-200 py-3 dark:border-gray-700">
           <h2 class="mb-2 text-lg font-semibold">Địa điểm liên quan</h2>
@@ -289,6 +299,21 @@
                 .then(r => r.json())
                 .then(() => { loadComments(); commentForm.reset(); });
         });
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const el = document.getElementById('map');
+        if (!el || !window.L) return;
+        const lat = parseFloat(el.dataset.lat), lng = parseFloat(el.dataset.lng);
+        if (!lat || !lng) return;
+        const map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap', maxZoom: 19,
+        }).addTo(map);
+        L.marker([lat, lng]).addTo(map).bindPopup(el.dataset.name).openPopup();
     });
 </script>
 @endpush
