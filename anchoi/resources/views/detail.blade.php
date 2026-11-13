@@ -6,7 +6,6 @@
 
 @push('head')
     <script type="application/ld+json">@php echo json_encode($entertainmentSpot->header); @endphp</script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 @endpush
 
 @section('content')
@@ -66,9 +65,9 @@
         @if ((float) $entertainmentSpot->latitude != 0 && (float) $entertainmentSpot->longitude != 0)
         <div class="border-t border-gray-200 py-4 dark:border-gray-700">
           <h2 class="mb-2 text-lg font-semibold">Bản đồ</h2>
-          <div id="map" class="h-72 w-full overflow-hidden rounded-xl ring-1 ring-black/5"
-               data-lat="{{ $entertainmentSpot->latitude }}" data-lng="{{ $entertainmentSpot->longitude }}"
-               data-name="{{ $entertainmentSpot->name }}"></div>
+          <iframe class="h-72 w-full rounded-xl ring-1 ring-black/5" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade" title="Bản đồ {{ $entertainmentSpot->name }}"
+                  src="https://maps.google.com/maps?q={{ $entertainmentSpot->latitude }},{{ $entertainmentSpot->longitude }}&z=16&output=embed"></iframe>
         </div>
         @endif
 
@@ -299,22 +298,6 @@
                 .then(r => r.json())
                 .then(() => { loadComments(); commentForm.reset(); });
         });
-    });
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const el = document.getElementById('map');
-        if (!el || !window.L) return;
-        const lat = parseFloat(el.dataset.lat), lng = parseFloat(el.dataset.lng);
-        if (!lat || !lng) return;
-        const map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 16);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap', maxZoom: 19,
-        }).addTo(map);
-        setTimeout(() => map.invalidateSize(), 200); // phòng tile xám do container đổi size sau init
-        L.marker([lat, lng]).addTo(map).bindPopup(el.dataset.name).openPopup();
     });
 </script>
 @endpush
