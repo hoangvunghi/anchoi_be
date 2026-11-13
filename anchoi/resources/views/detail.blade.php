@@ -67,7 +67,7 @@
           <h2 class="mb-2 text-lg font-semibold">Bản đồ</h2>
           <iframe class="h-72 w-full rounded-xl ring-1 ring-black/5" loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade" title="Bản đồ {{ $entertainmentSpot->name }}"
-                  src="https://maps.google.com/maps?q={{ $entertainmentSpot->latitude }},{{ $entertainmentSpot->longitude }}&z=16&output=embed"></iframe>
+                  src="https://maps.google.com/maps?q={{ $entertainmentSpot->latitude }},{{ $entertainmentSpot->longitude }}({{ urlencode($entertainmentSpot->name) }})&z=16&output=embed"></iframe>
         </div>
         @endif
 
