@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use App\Models\EntertainmentSpot;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
@@ -168,7 +169,18 @@ class BlogController extends Controller
             ->latest('id')->take(4)->get();
         $related = json_decode(json_encode($this->transformBlogs($related)));
 
-        return view('blogDetail', compact('blog', 'related'));
+        // Internal link: gợi ý địa điểm (blog -> trang địa điểm / money page)
+        $suggestedSpots = EntertainmentSpot::with(['ward:id,name,slug', 'entertainmentType:id,name,slug'])
+            ->where('status', 'approved')->whereHas('ward')->whereHas('entertainmentType')
+            ->inRandomOrder()->take(4)->get()
+            ->map(fn ($s) => (object) [
+                'name' => $s->name,
+                'type' => $s->entertainmentType->name,
+                'ward' => $s->ward->name,
+                'url' => $s->entertainmentType->slug . '-' . $s->ward->slug . '/' . $s->slug,
+            ]);
+
+        return view('blogDetail', compact('blog', 'related', 'suggestedSpots'));
     }
 
     private function transformBlog($blog)

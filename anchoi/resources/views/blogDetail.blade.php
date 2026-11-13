@@ -70,6 +70,20 @@
              class="mt-6 space-y-4 leading-relaxed text-gray-700 dark:text-gray-200 [&_img]:rounded-lg [&_h2]:mt-8 [&_h2]:scroll-mt-24 [&_h2]:text-xl [&_h2]:font-semibold [&_a]:text-brand-600 [&_a]:underline">
             {!! $blog->body !!}
         </div>
+
+        @if (!empty($suggestedSpots) && count($suggestedSpots))
+            <div class="mt-8 rounded-xl border border-brand-100 bg-brand-50/50 p-5 dark:border-gray-700 dark:bg-gray-800/40">
+                <p class="font-semibold">📍 Địa điểm nổi bật</p>
+                <ul class="mt-2 space-y-1.5 text-sm">
+                    @foreach ($suggestedSpots as $s)
+                        <li>
+                            <a href="/{{ $s->url }}" class="font-medium text-brand-600 hover:underline">{{ $s->name }}</a>
+                            <span class="text-gray-400">· {{ $s->type }}, {{ $s->ward }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </article>
 
     @if (!empty($related) && count($related))

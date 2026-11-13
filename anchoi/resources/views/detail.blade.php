@@ -15,7 +15,25 @@
       ? $entertainmentSpot->latitude . ',' . $entertainmentSpot->longitude
       : trim(($entertainmentSpot->full_address ?? '') . ', ' . ($entertainmentSpot->ward_name ?? '') . ', ' . ($entertainmentSpot->province_name ?? ''), ', ');
     $directionsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($destination);
+
+    // FAQ từ dữ liệu thật của địa điểm (dùng cho FAQPage schema)
+    $nm = $entertainmentSpot->name;
+    $faqs = [[
+      'q' => $nm . ' ở đâu?',
+      'a' => $nm . ' tọa lạc tại ' . trim(($entertainmentSpot->full_address ?? '') . ', ' . ($entertainmentSpot->ward_name ?? '') . ', ' . ($entertainmentSpot->province_name ?? ''), ', ') . '.',
+    ]];
+    if ($entertainmentSpot->phone_number) {
+      $faqs[] = ['q' => 'Số điện thoại của ' . $nm . ' là gì?', 'a' => 'Bạn có thể liên hệ ' . $nm . ' qua số ' . $entertainmentSpot->phone_number . '.'];
+    }
+    $faqs[] = ['q' => $nm . ' là địa điểm loại gì?', 'a' => $nm . ' là địa điểm ' . $entertainmentSpot->entertainment_type_name . '.'];
+    if (!empty($entertainmentSpot->opening_hours)) {
+      $faqs[] = ['q' => 'Giờ mở cửa của ' . $nm . '?', 'a' => $nm . ' mở cửa: ' . $entertainmentSpot->opening_hours . '.'];
+    }
   @endphp
+
+  @push('head')
+    <script type="application/ld+json">@php echo json_encode(['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => array_map(fn ($f) => ['@type' => 'Question', 'name' => $f['q'], 'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['a']]], $faqs)], JSON_UNESCAPED_UNICODE); @endphp</script>
+  @endpush
 
   <div class="flex flex-col gap-6 md:flex-row">
     <div class="w-full md:w-9/12">
@@ -84,6 +102,20 @@
           </div>
         </div>
         @endif
+
+        <div class="border-t border-gray-200 py-4 dark:border-gray-700">
+          <h2 class="mb-2 text-lg font-semibold">Câu hỏi thường gặp</h2>
+          <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            @foreach ($faqs as $faq)
+              <details class="group py-3">
+                <summary class="cursor-pointer list-none font-medium marker:content-none">
+                  <span class="text-brand-600 group-open:hidden">+ </span><span class="hidden text-brand-600 group-open:inline">− </span>{{ $faq['q'] }}
+                </summary>
+                <p class="mt-2 text-gray-600 dark:text-gray-300">{{ $faq['a'] }}</p>
+              </details>
+            @endforeach
+          </div>
+        </div>
 
         <div class="mt-4 border-t border-gray-200 py-3 dark:border-gray-700">
           <h2 class="mb-2 text-lg font-semibold">Địa điểm liên quan</h2>
