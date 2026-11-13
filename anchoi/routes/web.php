@@ -12,6 +12,7 @@ use App\Http\Controllers\SitemapController;
 // Phải đặt TRƯỚC route catch-all /{params}
 Route::get('/sitemap.xml', [SitemapController::class, 'sitemap']);
 Route::get('/robots.txt', [SitemapController::class, 'robots']);
+Route::get('/tim-kiem', [EntertainmentSpotController::class, 'searchByName']);
 
 Route::get('/all', [EntertainmentSpotController::class, 'index_all']);
 Route :: get ('/blog', [BlogController :: class, 'indexRender']);
@@ -29,7 +30,7 @@ Route::get('/get-location', [EntertainmentSpotController::class, 'getLocation'])
 use App\Http\Controllers\CommentController;
 
 Route::prefix('/api/comments')->group(function () {
-    Route::post('', [CommentController::class, 'store']);
+    Route::post('', [CommentController::class, 'store'])->middleware('throttle:10,1'); // tối đa 10 bình luận/phút/IP
     Route::get('/{id}', [CommentController::class, 'showWithReplies']);
 });
 

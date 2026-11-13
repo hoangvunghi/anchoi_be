@@ -12,6 +12,7 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use App\Models\EntertainmentType;
 use App\Models\Province;
 use App\Models\Ward;
+use Illuminate\Support\Facades\Cache;
 
 class EntertainmentSpotController extends Controller
 {
@@ -52,17 +53,56 @@ class EntertainmentSpotController extends Controller
     }
     public function index()
     {
-        $response_all = $this->entertainment_spot_type_list_newest(request(), "all");
-        $entertainmentSpots = $response_all->getData()->entertainmentSpots;
-        $response_karaoke = $this->entertainment_spot_type_list_newest(request(), "karaoke");
-        $entertainmentSpots_karaoke = $response_karaoke->getData()->entertainmentSpots;
-        $response_bar = $this->entertainment_spot_type_list_newest(request(), "bar");
-        $entertainmentSpots_bar = $response_bar->getData()->entertainmentSpots;
-        $response_nha_hang = $this->entertainment_spot_type_list_newest(request(), "nha-hang");
-        $entertainmentSpots_nha_hang = $response_nha_hang->getData()->entertainmentSpots;
-        $response_club = $this->entertainment_spot_type_list_newest(request(), "club");
-        $entertainmentSpots_club = $response_club->getData()->entertainmentSpots;
-        return view("home", compact('entertainmentSpots', 'entertainmentSpots_karaoke', 'entertainmentSpots_bar', 'entertainmentSpots_nha_hang', 'entertainmentSpots_club'));
+        // Cache 10 phút — home ít đổi; tự xoá khi spot được lưu (xem EntertainmentSpot::boot)
+        $data = Cache::remember('home:sections', 600, function () {
+            $newest = fn ($type) => $this->entertainment_spot_type_list_newest(request(), $type)->getData()->entertainmentSpots;
+            return [
+                'entertainmentSpots' => $newest('all'),
+                'entertainmentSpots_karaoke' => $newest('karaoke'),
+                'entertainmentSpots_bar' => $newest('bar'),
+                'entertainmentSpots_nha_hang' => $newest('nha-hang'),
+                'entertainmentSpots_club' => $newest('club'),
+            ];
+        });
+
+        return view("home", $data);
+    }
+
+    /**
+     * Tìm địa điểm theo tên (ô search box).
+     */
+    public function searchByName(Request $request)
+    {
+        $q = trim((string) $request->query('q', ''));
+        $title = $q !== '' ? "Kết quả tìm kiếm cho \"{$q}\"" : 'Tìm kiếm địa điểm';
+
+        if ($q === '') {
+            return view('searchResult', ['entertainmentSpots' => [], 'pageTitle' => $title, 'title' => $title, 'intro' => null]);
+        }
+
+        $paginator = EntertainmentSpot::with(['ward.province', 'entertainmentType', 'comments'])
+            ->where('status', 'approved')
+            ->where('name', 'like', '%' . $q . '%')
+            ->orderByDesc('id')->paginate(12)->appends(['q' => $q]);
+
+        $items = json_decode(json_encode($this->transformEntertainmentSpots($paginator->getCollection())));
+        $nextPlain = $paginator->hasMorePages() ? $paginator->nextPageUrl() : null;
+
+        if ($request->boolean('ajax')) {
+            return response()->json([
+                'html' => view('partials.spot-cards', ['entertainmentSpots' => $items])->render(),
+                'nextPageUrl' => $nextPlain ? $nextPlain . '&ajax=1' : null,
+            ]);
+        }
+
+        return view('searchResult', [
+            'entertainmentSpots' => $items,
+            'pageTitle' => $title,
+            'title' => $title,
+            'intro' => null,
+            'nextPageUrl' => $nextPlain ? $nextPlain . '&ajax=1' : null,
+            'nextPagePlain' => $nextPlain,
+        ]);
     }
 
     public function index_all(Request $request)

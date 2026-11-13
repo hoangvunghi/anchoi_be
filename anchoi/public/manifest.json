@@ -1,0 +1,14 @@
+{
+    "name": "Ăn chơi nét",
+    "short_name": "Ăn chơi nét",
+    "description": "Tìm địa điểm ăn chơi, giải trí, ẩm thực khắp Việt Nam",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#db2777",
+    "lang": "vi",
+    "icons": [
+        { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    ]
+}

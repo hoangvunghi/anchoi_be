@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class EntertainmentSpot extends Model
 {
@@ -50,6 +51,10 @@ class EntertainmentSpot extends Model
     protected static function boot()
     {
         parent::boot();
+
+        // Xoá cache trang chủ khi có thay đổi địa điểm
+        static::saved(fn () => Cache::forget('home:sections'));
+        static::deleted(fn () => Cache::forget('home:sections'));
 
         static::saving(function ($model) {
             $model->slug = $model->slugify($model->name);

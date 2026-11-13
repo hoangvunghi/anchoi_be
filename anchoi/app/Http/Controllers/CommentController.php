@@ -18,6 +18,11 @@ class CommentController extends Controller
 
     public function store(Request $request)
 {
+    // Honeypot: bot thường điền mọi field; field 'website' ẩn với người thật
+    if ($request->filled('website')) {
+        return response()->json(['message' => 'Comment created'], 201);
+    }
+
     $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255',

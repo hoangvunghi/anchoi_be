@@ -9,7 +9,13 @@ Club, karaoke, bar, nhà hàng &mdash; chọn khu vực hoặc tìm ngay gần b
         </p>
     </div>
 
-    <div class="search-bar relative z-10 mt-6 flex flex-wrap gap-3 rounded-xl bg-white/95 backdrop-blur p-4 shadow-xl">
+    <form action="/tim-kiem" method="GET" class="relative z-10 mt-6 flex gap-2">
+        <input type="search" name="q" value="{{ request('q') }}" placeholder="Tìm theo tên quán, địa điểm..."
+               class="w-full rounded-xl border-0 bg-white/95 px-4 py-3 text-gray-800 shadow-lg placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white" />
+        <button type="submit" class="shrink-0 rounded-xl bg-white px-5 py-3 font-semibold text-brand-600 shadow-lg transition hover:bg-brand-50">Tìm</button>
+    </form>
+
+    <div class="search-bar relative z-10 mt-3 flex flex-wrap gap-3 rounded-xl bg-white/95 backdrop-blur p-4 shadow-xl">
         <div class="search-select-container relative w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(20%-0.6rem)]">
             <select class="search-select" id="loai-hinh" name="loai-hinh">
                 <option value="">Chọn loại hình</option>

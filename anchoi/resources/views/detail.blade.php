@@ -6,6 +6,11 @@
 
 @push('head')
     <script type="application/ld+json">@php echo json_encode($entertainmentSpot->header); @endphp</script>
+    <script type="application/ld+json">@php echo json_encode(['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Trang chủ', 'item' => url('/')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => $entertainmentSpot->entertainment_type_name, 'item' => url('/' . $entertainmentSpot->entertainment_type_slug)],
+        ['@type' => 'ListItem', 'position' => 3, 'name' => $entertainmentSpot->name],
+    ]], JSON_UNESCAPED_UNICODE); @endphp</script>
 @endpush
 
 @section('content')
@@ -220,6 +225,7 @@
         @csrf
         <input type="hidden" name="entertainment_spot_id" value="{{ $entertainmentSpot->id }}">
         <input type="hidden" name="parent_id" value="">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
         <div class="space-y-1">
           <label class="text-sm font-medium" for="name">Tên</label>
           <input class="search-select" placeholder="Tên của bạn" id="name" name="name" required />
@@ -316,6 +322,7 @@
             @csrf
             <input type="hidden" name="entertainment_spot_id" value="{{ $entertainmentSpot->id }}">
             <input type="hidden" name="parent_id" value="${commentId}">
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
             <input class="search-select" placeholder="Tên" name="name" required />
             <input type="email" class="search-select" placeholder="Email" name="email" required />
             <textarea class="search-select min-h-[60px]" placeholder="Trả lời..." name="body" required></textarea>

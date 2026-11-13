@@ -4,6 +4,10 @@
 @section('description', 'Kết quả tìm kiếm cho ' . strtolower($pageTitle) . '. Khám phá các địa điểm giải trí và ẩm thực phù hợp với bạn.')
 
 @push('head')
+    <script type="application/ld+json">@php echo json_encode(['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Trang chủ', 'item' => url('/')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => $title],
+    ]], JSON_UNESCAPED_UNICODE); @endphp</script>
     @foreach ($entertainmentSpots as $entertainmentSpot)
         <script type="application/ld+json">@php echo json_encode($entertainmentSpot->header); @endphp</script>
     @endforeach
