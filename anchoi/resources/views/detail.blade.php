@@ -310,9 +310,10 @@
         const lat = parseFloat(el.dataset.lat), lng = parseFloat(el.dataset.lng);
         if (!lat || !lng) return;
         const map = L.map('map', { scrollWheelZoom: false }).setView([lat, lng], 16);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap', maxZoom: 19,
         }).addTo(map);
+        setTimeout(() => map.invalidateSize(), 200); // phòng tile xám do container đổi size sau init
         L.marker([lat, lng]).addTo(map).bindPopup(el.dataset.name).openPopup();
     });
 </script>
